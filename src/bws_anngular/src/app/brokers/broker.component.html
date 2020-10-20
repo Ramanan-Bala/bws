@@ -1,0 +1,562 @@
+<div class="px-8 md:px-12 xl:px-32 my-1 flex justify-end">
+  <!--Alert-->
+  <div
+    *ngIf="alertSuccess"
+    class="alert-toast flex items-center justify-center"
+  >
+    <input type="checkbox" class="hidden" id="footertoast" />
+    <label
+      class="close cursor-pointer flex items-center justify-between"
+      title="close"
+      for="footertoast"
+    >
+      <div
+        class="flex items-center bg-white shadow rounded-md px-2 mx-8"
+        style="width: 24rem"
+      >
+        <div class="mr-6 bg-green-500 rounded px-2 py-2 text-center -ml-3">
+          <svg
+            fill="none"
+            viewBox="2 2 20 20"
+            class="w-8 h-6 text-white"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+        <div class="flex items-center">
+          <h2 class="text-green-500 text-2xl font-bold mr-2">
+            {{ alertType }}
+          </h2>
+          <p class="text-sm mt-1 font-semibold text-gray-700">{{ alertMsg }}</p>
+        </div>
+        <div class="flex justify-end flex-1">
+          <a class="focus:outline-none" (click)="remAlert()">
+            <svg
+              fill="none"
+              viewBox="0 0 24 24"
+              class="w-4 h-4 text-black"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </label>
+  </div>
+  <!--Search Box-->
+  <div class="pt-2 relative mx-10 text-gray-600">
+    <input
+      [(ngModel)]="searchValue"
+      class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm outline-none"
+      type="text"
+      name="search"
+      placeholder="Search"
+    />
+    <button
+      type="submit"
+      class="absolute right-0 top-0 mt-5 mr-4 focus:outline-none"
+    >
+      <svg
+        class="text-gray-600 h-4 w-4 fill-current"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        version="1.1"
+        x="0px"
+        y="0px"
+        viewBox="0 0 56.966 56.966"
+        style="enable-background: new 0 0 56.966 56.966"
+        xml:space="preserve"
+        width="512px"
+        height="512px"
+      >
+        <path
+          d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z"
+        />
+      </svg>
+    </button>
+  </div>
+  <!--Add Employee Button-->
+  <button (click)="add()" class="btn-primary inline-flex items-center">
+    <svg
+      class="h-6 lg:h-5 mr-1"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+
+    <span class="sm:hidden lg:inline">Add Employee</span>
+  </button>
+</div>
+<!--Table-->
+<div class="py-2 md:px-12 xl:px-32 block min-w-full">
+  <div class="shadow-md border border-gray-200 rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-200">
+        <th
+          (click)="sort('id')"
+          class="th cursor-pointer lg:px-4 lg:py-2 px-2 py-1 text-xs"
+        >
+          Broker Id&nbsp;<svg
+            class="h-4 absolute -my-4 mx-20 hover:text-black"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+            />
+          </svg>
+        </th>
+        <th
+          (click)="sort('id')"
+          class="th cursor-pointer lg:px-4 lg:py-2 px-2 py-1 text-xs"
+        >
+          Broker Name&nbsp;<svg
+            class="h-4 absolute -my-4 mx-24 hover:text-black"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+            />
+          </svg>
+        </th>
+        <th class="th lg:px-4 lg:py-2 px-2 py-1 text-xs">Address Line 1</th>
+        <th class="th lg:px-4 lg:py-2 px-2 py-1 text-xs">Address Line 2</th>
+        <th class="th lg:px-4 lg:py-2 px-2 py-1 text-xs">City</th>
+        <th class="th lg:px-4 lg:py-2 px-2 py-1 text-xs">Contact number</th>
+        <th class="th lg:px-4 lg:py-2 px-2 py-1 text-xs">Action</th>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr
+          *ngFor="
+            let data of brokers
+              | paginate: config
+              | searchfilter: searchValue
+              | orderBy: key:reverse;
+            let index = index
+          "
+          class="hover:bg-gray-200"
+        >
+          <td class="td lg:px-4 lg:py-2 xl:text-sm px-2 py-1 text-xs">
+            {{ data.brokerId }}
+          </td>
+          <td class="td lg:px-4 lg:py-2 xl:text-sm px-2 py-1 text-xs">
+            {{ data.name }}
+          </td>
+          <td class="td lg:px-4 lg:py-2 xl:text-sm px-2 py-1 text-xs">
+            {{ data.addressLine1 }}
+          </td>
+          <td class="td lg:px-4 lg:py-2 xl:text-sm px-2 py-1 text-xs">
+            {{ data.addressLine2 }}
+          </td>
+          <td class="td lg:px-4 lg:py-2 xl:text-sm px-2 py-1 text-xs">
+            {{ data.city }}
+          </td>
+          <td class="td lg:px-4 lg:py-2 xl:text-sm px-2 py-1 text-xs">
+            {{ data.contactNumber }}
+          </td>
+          <td class="td lg:px-4 lg:py-2 xl:text-sm pl-2 py-1 text-xs">
+            <button (click)="delData(index)" class="btn-danger">
+              <svg
+                class="xl:h-6 md:h-4 h-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                />
+              </svg>
+            </button>
+            <button (click)="edit(index)" class="btn-warning m-2">
+              <svg
+                class="xl:h-6 md:h-4 h-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                />
+              </svg>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="!brokers || brokers.length == 0">
+          <td
+            class="td text-center lg:px-4 lg:py-2 xl:text-sm px-2 py-1 text-xs"
+            colspan="7"
+          >
+            No brokers...Add New
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!--Pagination-->
+    <pagination-template
+      #p="paginationApi"
+      [id]="config.id"
+      (pageChange)="config.currentPage = $event"
+    >
+      <div class="flex justify-end m-4">
+        <div>
+          <label for="search">items per page:</label>
+          <select
+            class="appearance-none align-middle ml-4 border-2 border-gray-400 rounded-lg"
+            (change)="setItemsPerPage(page.value)"
+            #page
+          >
+            <option selected>05</option>
+            <option>10</option>
+            <option>15</option>
+          </select>
+        </div>
+        <div
+          class="h-8 w-8 mr-1 flex justify-center items-center cursor-pointer"
+          [class.disabled]="p.isFirstPage()"
+        >
+          <svg
+            *ngIf="!p.isFirstPage()"
+            (click)="p.previous()"
+            xmlns="http://www.w3.org/2000/svg"
+            width="100%"
+            height="100%"
+            fill="none"
+            viewBox="0 0 19 19"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-chevron-left w-4 h-4"
+          >
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </div>
+        <div
+          class="flex justify-center items-center h-8 font-medium"
+          *ngFor="let page of p.pages"
+          [class.current]="p.getCurrent() === page.value"
+        >
+          <span
+            class="w-8 lg:flex justify-center items-center hidden cursor-pointer leading-5 transition duration-150 ease-in border-t-2 border-transparent"
+            (click)="p.setCurrent(page.value)"
+            *ngIf="p.getCurrent() !== page.value"
+            >{{ page.label }}</span
+          >
+          <div *ngIf="p.getCurrent() === page.value">
+            <span
+              class="w-8 md:flex justify-center items-center cursor-pointer leading-5 transition duration-150 ease-in border-t-2 border-orange-600"
+              >{{ page.label }}</span
+            >
+          </div>
+        </div>
+        <div [class.disabled]="p.isLastPage()">
+          <div
+            class="h-8 w-8 ml-1 flex justify-center items-center cursor-pointer"
+          >
+            <svg
+              *ngIf="!p.isLastPage()"
+              (click)="p.next()"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 19 19"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="feather feather-chevron-right w-4 h-4"
+            >
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </pagination-template>
+  </div>
+</div>
+<!-- EDIT MODAL -->
+<form [formGroup]="angForm" class="rounded px-8 pt-6 pb-8 mb-4">
+  <div
+    *ngIf="showModal"
+    class="overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center flex"
+  >
+    <div class="relative w-auto my-6">
+      <!--content-->
+      <div
+        class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none"
+      >
+        <!--header-->
+        <div
+          class="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t"
+        >
+          <h3 class="text-xl font-semibold">{{ title }}</h3>
+          <button
+            class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+            (click)="cancel()"
+          >
+            <span
+              class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none"
+            >
+              ×
+            </span>
+          </button>
+        </div>
+        <!--body-->
+        <div class="rounded mx-auto max-w-md md:max-w-lg lg:max-w-xl pt-6 pb-5">
+          <div class="">
+            <div class="overflow-hidden sm:rounded-lg">
+              <div
+                class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              >
+                <dt class="text-base leading-5 font-medium text-gray-600">
+                  <span class="text-red-600">*</span> Broker Id
+                </dt>
+                <ul>
+                  <li>
+                    <input
+                      formControlName="brokerId"
+                      type="text"
+                      placeholder="Broker Id"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.brokerId.errors
+                      }"
+                      class="ul-input"
+                    />
+                  </li>
+                  <li>
+                    <div
+                      *ngIf="
+                        (submitted && f.brokerId.errors) ||
+                        (f.brokerId.errors && f.brokerId.touched)
+                      "
+                    >
+                      <dd
+                        *ngIf="f.brokerId.errors.required"
+                        class="text-red-500 text-sm italic"
+                      >
+                        * Broker Id is required
+                      </dd>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              >
+                <dt class="text-base leading-5 font-medium text-gray-600">
+                  <span class="text-red-600">*</span> Name
+                </dt>
+                <ul>
+                  <li>
+                    <input
+                      formControlName="name"
+                      type="text"
+                      placeholder="Name"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.name.errors
+                      }"
+                      class="ul-input"
+                    />
+                  </li>
+                  <li>
+                    <div
+                      *ngIf="
+                        (submitted && f.name.errors) ||
+                        (f.name.errors && f.name.touched)
+                      "
+                    >
+                      <dd
+                        *ngIf="f.name.errors.required"
+                        class="text-red-500 text-sm italic"
+                      >
+                        * Name is required
+                      </dd>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              >
+                <dt class="text-base leading-5 font-medium text-gray-600">
+                  <span class="text-red-600">*</span>Address Line 1
+                </dt>
+                <input
+                  formControlName="addressLine1"
+                  id="address1"
+                  type="text"
+                  placeholder="Address Line 1"
+                  class="ul-input"
+                />
+              </div>
+              <div
+                class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              >
+                <dt class="text-base leading-5 font-medium text-gray-600">
+                  <span class="text-red-600">*</span>Address Line 2
+                </dt>
+                <input
+                  formControlName="addressLine2"
+                  id="address2"
+                  type="text"
+                  placeholder="Address Line 2"
+                  class="ul-input"
+                />
+              </div>
+              <div
+                class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              >
+                <dt class="text-base leading-5 font-medium text-gray-600">
+                  <span class="text-red-600">*</span>City
+                </dt>
+                <ul>
+                  <li>
+                    <input
+                      formControlName="city"
+                      type="text"
+                      placeholder="City"
+                      [ngClass]="{ 'is-invalid': submitted && f.city.errors }"
+                      class="ul-input"
+                    />
+                  </li>
+                  <li>
+                    <div
+                      *ngIf="
+                        (submitted && f.city.errors) ||
+                        (f.city.errors && f.city.touched)
+                      "
+                    >
+                      <div
+                        *ngIf="f.city.errors.required"
+                        class="text-red-500 text-sm italic"
+                      >
+                        * City is required
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+              >
+                <dt class="text-base leading-5 font-medium text-gray-600">
+                  <span class="text-red-600">*</span>Contact Number
+                </dt>
+                <ul>
+                  <li>
+                    <input
+                      formControlName="contactNumber"
+                      id="contactNumber"
+                      type="text"
+                      placeholder="Contact Number"
+                      [ngClass]="{
+                        'is-invalid': submitted && f.contactNumber.errors
+                      }"
+                      class="ul-input"
+                    />
+                  </li>
+                  <li>
+                    <div
+                      *ngIf="
+                        (submitted && f.contactNumber.errors) ||
+                        (f.contactNumber.errors && f.contactNumber.touched)
+                      "
+                    >
+                      <div
+                        *ngIf="f.contactNumber.errors.required"
+                        class="text-red-500 text-sm italic"
+                      >
+                        * Contact Number is required
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--footer-->
+        <div class="flex justify-end p-3">
+          <button (click)="submit()" class="btn-primary m-2">Submit</button>
+          <button (click)="cancel()" class="btn-secondary m-2">cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showModal" class="opacity-25 fixed inset-0 z-40 bg-black"></div>
+</form>
+
+<!-- <app-add-employee index="index" next="next"></app-add-employee> -->
+<!-- [routerLink]="['add', index]" -->
+<style>
+  .alert-toast {
+    animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  /*Toast close animation*/
+  .alert-toast input:checked ~ * {
+    animation: fade-out-top 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  @keyframes slide-in-top {
+    0% {
+      -webkit-transform: translateY(-1000px);
+      transform: translateY(-1000px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes fade-out-top {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+  }
+</style>
