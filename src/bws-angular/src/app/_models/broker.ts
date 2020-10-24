@@ -4,5 +4,5 @@ export interface Broker {
   addressLine1: string;
   addressLine2: string;
   city: string;
-  contactNumber: string;
+  mobileNumber: string;
 }

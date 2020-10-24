@@ -1,4 +1,11 @@
-<button nz-button nzType="primary" (click)="addBrokerM()">Add</button>
+<div>
+  <h2>Brokers</h2>
+</div>
+<div nz-row nzJustify="end" class="top-bottom-space">
+  <button nz-col nz-button nzType="primary" [routerLink]="['/add-edit', index]">
+    Add
+  </button>
+</div>
 <nz-table [nzPageSize]="5" [nzData]="brokers">
   <thead>
     <tr>
@@ -12,16 +19,16 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of brokers">
+    <tr *ngFor="let data of brokers; let index = index">
       <td>{{ data.brokerId }}</td>
       <td>{{ data.name }}</td>
       <td>{{ data.addressLine1 }}</td>
       <td>{{ data.addressLine2 }}</td>
       <td>{{ data.city }}</td>
-      <td>{{ data.contactNumber }}</td>
+      <td>{{ data.mobileNumber }}</td>
       <td>
         <a
-          (click)="showModal()"
+          [routerLink]="['/add-edit', this.index]"
           nz-icon
           [nzType]="'edit'"
           [nzTheme]="'twotone'"
@@ -30,6 +37,7 @@
         ></a>
         <nz-divider nzType="vertical"></nz-divider>
         <a
+          (click)="delData()"
           nz-icon
           [nzType]="'delete'"
           [nzTheme]="'twotone'"
@@ -41,31 +49,3 @@
     </tr>
   </tbody>
 </nz-table>
-<nz-modal
-  [(nzVisible)]="isVisible"
-  nzTitle="The first Modal"
-  nzOkText="Submit"
-  nzKeyboard
-  nzMaskClosable
->
-  <p>Content one</p>
-  <p>Content two</p>
-  <p>Content three</p>
-  <p>Content three</p>
-</nz-modal>
-<nz-modal
-  nzWrapClassName="vertical-center-modal"
-  [(nzVisible)]="addModal"
-  nzTitle="Add Broker"
-  (nzOnCancel)="handleCancelMiddle()"
-  (nzOnOk)="handleOkMiddle()"
->
-  <form nz-form>
-    <nz-form-item>
-      <nz-form-label [nzSpan]="6" nzFor="email">E-mail</nz-form-label>
-      <nz-form-control [nzSpan]="14">
-        <input nz-input name="email" type="email" id="email" />
-      </nz-form-control>
-    </nz-form-item>
-  </form>
-</nz-modal>

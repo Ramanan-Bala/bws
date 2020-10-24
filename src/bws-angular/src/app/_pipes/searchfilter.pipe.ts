@@ -20,7 +20,7 @@ export class SearchfilterPipe implements PipeTransform {
         broker.addressLine1.toLowerCase().includes(searchValue.toLowerCase()) ||
         broker.addressLine2.toLowerCase().includes(searchValue.toLowerCase()) ||
         broker.city.toLowerCase().includes(searchValue.toLowerCase()) ||
-        broker.contactNumber
+        broker.mobileNumber
           .toString()
           .toLowerCase()
           .includes(searchValue.toLowerCase())

@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+
 import { Broker } from '../_models';
 
 @Component({
@@ -13,64 +8,18 @@ import { Broker } from '../_models';
   styleUrls: ['./brokers.component.css'],
 })
 export class BrokersComponent implements OnInit {
-  validateForm!: FormGroup;
   brokers: Broker[] = [];
-  isVisible = false;
-  addModal = false;
-  showModal(): void {
-    this.isVisible = true;
-  }
-  addBrokerM(): void {
-    this.addModal = true;
-  }
-  handleOkMiddle(): void {
-    this.addModal = false;
+  index = -1;
+
+  delData(data: number): void {
+    this.brokers.splice(data, 1);
+    const brokersJson: string = JSON.stringify(this.brokers);
+    localStorage.setItem('brokers', brokersJson);
   }
 
-  handleCancelMiddle(): void {
-    this.addModal = false;
-  }
-  submitForm(): void {
-    for (const i in this.validateForm.controls) {
-      this.validateForm.controls[i].markAsDirty();
-      this.validateForm.controls[i].updateValueAndValidity();
-    }
-  }
-
-  updateConfirmValidator(): void {
-    /** wait for refresh value */
-    Promise.resolve().then(() =>
-      this.validateForm.controls.checkPassword.updateValueAndValidity()
-    );
-  }
-
-  confirmationValidator = (control: FormControl): { [s: string]: boolean } => {
-    if (!control.value) {
-      return { required: true };
-    } else if (control.value !== this.validateForm.controls.password.value) {
-      return { confirm: true, error: true };
-    }
-    return {};
-  };
-
-  getCaptcha(e: MouseEvent): void {
-    e.preventDefault();
-  }
-
-  constructor(private fb: FormBuilder) {}
+  constructor() {}
 
   ngOnInit() {
     this.brokers = JSON.parse(localStorage.getItem('brokers')) || [];
-    this.validateForm = this.fb.group({
-      email: [null, [Validators.email, Validators.required]],
-      password: [null, [Validators.required]],
-      checkPassword: [null, [Validators.required, this.confirmationValidator]],
-      nickname: [null, [Validators.required]],
-      phoneNumberPrefix: ['+86'],
-      phoneNumber: [null, [Validators.required]],
-      website: [null, [Validators.required]],
-      captcha: [null, [Validators.required]],
-      agree: [false],
-    });
   }
 }

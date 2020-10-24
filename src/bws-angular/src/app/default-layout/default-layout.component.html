@@ -2,6 +2,7 @@
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <div class="logo"></div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-menu-item routerLink="/brokers">Broker</li>
       <li nz-submenu nzTitle="User" nzIcon="user">
         <ul>
           <li nz-menu-item>Tom</li>
@@ -31,9 +32,6 @@
       ></i>
     </nz-header>
     <nz-content>
-      <div>
-        <h2>Brokers</h2>
-      </div>
       <router-outlet></router-outlet>
     </nz-content>
     <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>

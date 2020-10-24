@@ -6,6 +6,7 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { AppComponent } from './app.component';
 import { BrokersComponent } from './brokers/brokers.component';
 import { DefaultLayoutComponent } from './default-layout/default-layout.component';
+import { AddEditComponent } from './add-edit/add-edit.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -28,6 +29,7 @@ registerLocaleData(en);
     BrokersComponent,
     SearchfilterPipe,
     DefaultLayoutComponent,
+    AddEditComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +38,6 @@ registerLocaleData(en);
     ReactiveFormsModule,
     AppRoutingModule,
     NgZorroAntdModule,
-
     IconsProviderModule,
     HttpClientModule,
     BrowserAnimationsModule,
