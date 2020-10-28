@@ -29,31 +29,36 @@ export class AddEditComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    if (this.validateForm.invalid) {
-      return;
-    }
+    console.log('index value', this.index);
 
-    if (this.index === -1) {
-      this.brokers.push({
-        brokerId: this.f.brokerId.value,
-        name: this.f.name.value,
-        addressLine1: this.f.addressLine1.value,
-        addressLine2: this.f.addressLine2.value,
-        city: this.f.city.value,
-        mobileNumber: this.f.mobileNumber.value,
-      });
-    } else if (this.index >= 0) {
-      console.log(this.brokers[this.index].brokerId);
-      this.brokers[this.index].brokerId = this.f.brokerId.value;
-      this.brokers[this.index].name = this.f.name.value;
-      this.brokers[this.index].addressLine1 = this.f.addressLine1.value;
-      this.brokers[this.index].addressLine2 = this.f.addressLine2.value;
-      this.brokers[this.index].city = this.f.city.value;
-      this.brokers[this.index].mobileNumber = this.f.mobileNumber.value;
+    if (this.validateForm.invalid) {
+      console.log('Invalid');
+      return;
+    } else {
+      // tslint:disable-next-line: triple-equals
+      if (this.index == -1) {
+        console.log('valid');
+        this.brokers.push({
+          brokerId: this.f.brokerId.value,
+          name: this.f.name.value,
+          addressLine1: this.f.addressLine1.value,
+          addressLine2: this.f.addressLine2.value,
+          city: this.f.city.value,
+          mobileNumber: this.f.mobileNumber.value,
+        });
+      } else if (this.index >= 0) {
+        console.log(this.brokers[this.index].brokerId);
+        this.brokers[this.index].brokerId = this.f.brokerId.value;
+        this.brokers[this.index].name = this.f.name.value;
+        this.brokers[this.index].addressLine1 = this.f.addressLine1.value;
+        this.brokers[this.index].addressLine2 = this.f.addressLine2.value;
+        this.brokers[this.index].city = this.f.city.value;
+        this.brokers[this.index].mobileNumber = this.f.mobileNumber.value;
+      }
+      const brokersJson: string = JSON.stringify(this.brokers);
+      localStorage.setItem('brokers', brokersJson);
+      this.router.navigate(['/brokers']);
     }
-    const brokersJson: string = JSON.stringify(this.brokers);
-    localStorage.setItem('brokers', brokersJson);
-    this.router.navigate(['/brokers']);
   }
 
   constructor(

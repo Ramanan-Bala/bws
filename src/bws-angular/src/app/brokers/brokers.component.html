@@ -1,8 +1,29 @@
 <div>
   <h2>Brokers</h2>
 </div>
-<div nz-row nzJustify="end" class="top-bottom-space">
-  <button nz-col nz-button nzType="primary" [routerLink]="['/add-edit', index]">
+<div nz-row nzJustify="end">
+  <div nz-col class="top-bottom-space">
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+      <input
+        [(ngModel)]="sValue"
+        type="text"
+        nz-input
+        placeholder="Search table"
+      />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+      <button nz-button nzType="primary" nzSearch (click)="search()">
+        <i nz-icon nzType="search"></i>
+      </button>
+    </ng-template>
+  </div>
+  <button
+    nz-col
+    nz-button
+    nzType="primary"
+    [routerLink]="['/add-edit', index]"
+    class="top-bottom-space"
+  >
     Add
   </button>
 </div>
@@ -19,7 +40,12 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let data of brokers; let index = index">
+    <tr
+      *ngFor="
+        let data of brokers | searchFilter: searchValue;
+        let index = index
+      "
+    >
       <td>{{ data.brokerId }}</td>
       <td>{{ data.name }}</td>
       <td>{{ data.addressLine1 }}</td>

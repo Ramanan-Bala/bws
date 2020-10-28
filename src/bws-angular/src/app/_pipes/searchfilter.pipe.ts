@@ -2,7 +2,7 @@ import { Broker } from '../_models/broker';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'searchfilter',
+  name: 'searchFilter',
 })
 export class SearchfilterPipe implements PipeTransform {
   transform(broker: Broker[], searchValue: string): any {
