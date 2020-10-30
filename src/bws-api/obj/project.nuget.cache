@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "AS8/V0hRYX2NsHZvhJ5YHI3VnMD6/ttxjVpwPVMjwhkukDJfAPFNKGHQsVcPZTkaNBcaDLEWDvFQPZXsP/n1eA==",
+  "dgSpecHash": "V+Ntr5pWzWLoC9YxDe8Oc6wVZwdkxU+N8L6qXMcuhwokijw3RzMuW59smGnay8cAXUSysxN9IegjEamDNaVM/Q==",
   "success": true,
   "projectFilePath": "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\seeth\\.nuget\\packages\\bouncycastle.netcore\\1.8.3\\bouncycastle.netcore.1.8.3.nupkg.sha512",
+    "C:\\Users\\seeth\\.nuget\\packages\\dapper\\2.0.35\\dapper.2.0.35.nupkg.sha512",
     "C:\\Users\\seeth\\.nuget\\packages\\google.protobuf\\3.11.4\\google.protobuf.3.11.4.nupkg.sha512",
     "C:\\Users\\seeth\\.nuget\\packages\\k4os.compression.lz4\\1.1.11\\k4os.compression.lz4.1.1.11.nupkg.sha512",
     "C:\\Users\\seeth\\.nuget\\packages\\k4os.compression.lz4.streams\\1.1.11\\k4os.compression.lz4.streams.1.1.11.nupkg.sha512",
@@ -60,7 +61,7 @@
     "C:\\Users\\seeth\\.nuget\\packages\\system.reflection\\4.3.0\\system.reflection.4.3.0.nupkg.sha512",
     "C:\\Users\\seeth\\.nuget\\packages\\system.reflection.emit\\4.0.1\\system.reflection.emit.4.0.1.nupkg.sha512",
     "C:\\Users\\seeth\\.nuget\\packages\\system.reflection.emit.ilgeneration\\4.0.1\\system.reflection.emit.ilgeneration.4.0.1.nupkg.sha512",
-    "C:\\Users\\seeth\\.nuget\\packages\\system.reflection.emit.lightweight\\4.0.1\\system.reflection.emit.lightweight.4.0.1.nupkg.sha512",
+    "C:\\Users\\seeth\\.nuget\\packages\\system.reflection.emit.lightweight\\4.7.0\\system.reflection.emit.lightweight.4.7.0.nupkg.sha512",
     "C:\\Users\\seeth\\.nuget\\packages\\system.reflection.extensions\\4.0.1\\system.reflection.extensions.4.0.1.nupkg.sha512",
     "C:\\Users\\seeth\\.nuget\\packages\\system.reflection.primitives\\4.3.0\\system.reflection.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\seeth\\.nuget\\packages\\system.reflection.typeextensions\\4.1.0\\system.reflection.typeextensions.4.1.0.nupkg.sha512",

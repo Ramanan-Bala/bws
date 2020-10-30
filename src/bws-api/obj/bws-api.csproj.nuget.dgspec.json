@@ -47,6 +47,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[5.5.1, )"
+            },
+            "dapper": {
+              "target": "Package",
+              "version": "[2.0.35, )"
             }
           },
           "imports": [
