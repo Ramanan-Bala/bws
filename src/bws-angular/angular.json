@@ -33,7 +33,9 @@
               "src/styles.css"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["@ant-design/colors"]
+            "allowedCommonJsDependencies": [
+              "@ant-design/colors"
+            ]
           },
           "configurations": {
             "production": {
@@ -128,5 +130,8 @@
       }
     }
   },
-  "defaultProject": "bws-angular"
+  "defaultProject": "bws-angular",
+  "cli": {
+    "analytics": false
+  }
 }

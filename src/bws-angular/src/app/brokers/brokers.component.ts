@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 import { Broker } from '../_models';
-import { SearchfilterPipe } from '../_pipes';
 
 @Component({
   selector: 'app-welcome',
@@ -14,7 +14,17 @@ export class BrokersComponent implements OnInit {
   sValue: string;
   searchValue: string;
 
-  search() {
+  visible = false;
+
+  clickMe(): void {
+    this.visible = false;
+  }
+
+  change(value: boolean): void {
+    console.log(value);
+  }
+
+  search(): void {
     this.searchValue = this.sValue;
   }
 
@@ -22,11 +32,13 @@ export class BrokersComponent implements OnInit {
     this.brokers.splice(data, 1);
     const brokersJson: string = JSON.stringify(this.brokers);
     localStorage.setItem('brokers', brokersJson);
+    this.visible = false;
+    this.message.create('success', `Broker Successfully Deleted`);
   }
 
-  constructor() {}
+  constructor(private message: NzMessageService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.brokers = JSON.parse(localStorage.getItem('brokers')) || [];
   }
 }

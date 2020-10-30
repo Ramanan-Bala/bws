@@ -54,7 +54,7 @@
       <td>{{ data.mobileNumber }}</td>
       <td>
         <a
-          [routerLink]="['/add-edit', this.index]"
+          [routerLink]="['/add-edit', index]"
           nz-icon
           [nzType]="'edit'"
           [nzTheme]="'twotone'"
@@ -63,15 +63,23 @@
         ></a>
         <nz-divider nzType="vertical"></nz-divider>
         <a
-          (click)="delData()"
+          nz-tooltip
+          nzTooltipTitle="Delete"
           nz-icon
           [nzType]="'delete'"
           [nzTheme]="'twotone'"
           [nzTwotoneColor]="'#eb2f96'"
-          nz-tooltip
-          nzTooltipTitle="Delete"
+          nz-popconfirm
+          nzPopconfirmTitle="Are you sure?"
+          [nzIcon]="iconTpl"
+          nzOkText="ok"
+          nzCancelText="cancel"
+          (nzOnConfirm)="delData(index)"
         ></a>
       </td>
     </tr>
   </tbody>
 </nz-table>
+<ng-template #iconTpl>
+  <i nz-icon nzType="question-circle-o" style="color: red"></i>
+</ng-template>

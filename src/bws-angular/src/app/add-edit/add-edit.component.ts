@@ -1,3 +1,4 @@
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -46,6 +47,7 @@ export class AddEditComponent implements OnInit {
           city: this.f.city.value,
           mobileNumber: this.f.mobileNumber.value,
         });
+        this.message.create('success', `Broker Successfully Added`);
       } else if (this.index >= 0) {
         console.log(this.brokers[this.index].brokerId);
         this.brokers[this.index].brokerId = this.f.brokerId.value;
@@ -54,6 +56,7 @@ export class AddEditComponent implements OnInit {
         this.brokers[this.index].addressLine2 = this.f.addressLine2.value;
         this.brokers[this.index].city = this.f.city.value;
         this.brokers[this.index].mobileNumber = this.f.mobileNumber.value;
+        this.message.create('success', `Broker Successfully Edited`);
       }
       const brokersJson: string = JSON.stringify(this.brokers);
       localStorage.setItem('brokers', brokersJson);
@@ -64,7 +67,8 @@ export class AddEditComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private message: NzMessageService
   ) {
     this.index = this.route.snapshot.params.index;
   }

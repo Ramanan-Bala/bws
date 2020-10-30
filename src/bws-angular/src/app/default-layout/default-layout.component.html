@@ -2,7 +2,10 @@
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <div class="logo"></div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-menu-item routerLink="/brokers">Broker</li>
+      <li nz-menu-item nzSelected routerLink="/brokers">
+        <i nz-icon nzType="user"></i>
+        <span>Broker</span>
+      </li>
       <li nz-submenu nzTitle="User" nzIcon="user">
         <ul>
           <li nz-menu-item>Tom</li>
