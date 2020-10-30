@@ -1,7 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 import { Broker } from '../_models';
 
@@ -11,13 +17,12 @@ import { Broker } from '../_models';
   styleUrls: ['./add-edit.component.css'],
 })
 export class AddEditComponent implements OnInit {
-  index: number;
+  id = undefined;
   title: string;
-  brokers: Broker[] = [];
   validateForm!: FormGroup;
   submitted = false;
 
-  get f(): any {
+  get f(): { [key: string]: AbstractControl } {
     return this.validateForm.controls;
   }
 
@@ -30,37 +35,41 @@ export class AddEditComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    console.log('index value', this.index);
-
     if (this.validateForm.invalid) {
-      console.log('Invalid');
       return;
     } else {
       // tslint:disable-next-line: triple-equals
-      if (this.index == -1) {
-        console.log('valid');
-        this.brokers.push({
-          brokerId: this.f.brokerId.value,
+      if (this.id == undefined) {
+        console.log('ADD');
+        const data: Broker = {
           name: this.f.name.value,
           addressLine1: this.f.addressLine1.value,
           addressLine2: this.f.addressLine2.value,
           city: this.f.city.value,
-          mobileNumber: this.f.mobileNumber.value,
-        });
-        this.message.create('success', `Broker Successfully Added`);
-      } else if (this.index >= 0) {
-        console.log(this.brokers[this.index].brokerId);
-        this.brokers[this.index].brokerId = this.f.brokerId.value;
-        this.brokers[this.index].name = this.f.name.value;
-        this.brokers[this.index].addressLine1 = this.f.addressLine1.value;
-        this.brokers[this.index].addressLine2 = this.f.addressLine2.value;
-        this.brokers[this.index].city = this.f.city.value;
-        this.brokers[this.index].mobileNumber = this.f.mobileNumber.value;
-        this.message.create('success', `Broker Successfully Edited`);
+          contactNumber: this.f.contactNumber.value,
+        };
+        this.client
+          .post('https://localhost:5001/broker', data)
+          .subscribe((_) => {
+            this.router.navigate(['/brokers']);
+            this.message.create('success', `Broker Successfully Added`);
+          });
+      } else {
+        const data: Broker = {
+          id: this.id,
+          name: this.f.name.value,
+          addressLine1: this.f.addressLine1.value,
+          addressLine2: this.f.addressLine2.value,
+          city: this.f.city.value,
+          contactNumber: this.f.contactNumber.value,
+        };
+        this.client
+          .put('https://localhost:5001/broker/' + this.id, data)
+          .subscribe((_) => {
+            this.router.navigate(['/brokers']);
+            this.message.create('success', `Broker Successfully Edited`);
+          });
       }
-      const brokersJson: string = JSON.stringify(this.brokers);
-      localStorage.setItem('brokers', brokersJson);
-      this.router.navigate(['/brokers']);
     }
   }
 
@@ -68,32 +77,36 @@ export class AddEditComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private client: HttpClient
   ) {
-    this.index = this.route.snapshot.params.index;
+    this.id = this.route.snapshot.params.id;
+
+    // tslint:disable-next-line: triple-equals
+    if (this.id == undefined) {
+      this.title = 'Add Broker';
+    } else if (this.id >= 0) {
+      this.title = 'Edit Broker';
+      this.client
+        .get<Broker>('https://localhost:5001/broker/' + this.id)
+        .subscribe((res) => {
+          this.f.name.setValue(res.name);
+          this.f.addressLine1.setValue(res.addressLine1);
+          this.f.addressLine2.setValue(res.addressLine2);
+          this.f.city.setValue(res.city);
+          this.f.contactNumber.setValue(res.contactNumber);
+        });
+    }
   }
 
   // tslint:disable-next-line: typedef
   ngOnInit() {
     this.validateForm = this.fb.group({
-      brokerId: ['', [Validators.required]],
       name: ['', [Validators.required]],
       addressLine1: ['', [Validators.required]],
       addressLine2: ['', [Validators.required]],
       city: ['', [Validators.required]],
-      mobileNumber: ['', [Validators.required]],
+      contactNumber: ['', [Validators.required]],
     });
-    this.brokers = JSON.parse(localStorage.getItem('brokers')) || [];
-    if (this.index === -1) {
-      this.title = 'Add Broker';
-    } else if (this.index >= 0) {
-      this.title = 'Edit Broker';
-      this.f.brokerId.value = this.brokers[this.index].brokerId;
-      this.f.name.value = this.brokers[this.index].name;
-      this.f.addressLine1.value = this.brokers[this.index].addressLine1;
-      this.f.addressLine2.value = this.brokers[this.index].addressLine2;
-      this.f.city.value = this.brokers[this.index].city;
-      this.f.mobileNumber.value = this.brokers[this.index].mobileNumber;
-    }
   }
 }

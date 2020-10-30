@@ -1,7 +1,7 @@
 <nz-card nzTitle="{{ title }}" class="card-center">
   <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="brokerId"
+    <!-- <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="id"
         >Broker Id</nz-form-label
       >
       <nz-form-control
@@ -9,9 +9,9 @@
         [nzXs]="24"
         nzErrorTip="The input is not valid Broker Id!"
       >
-        <input nz-input formControlName="brokerId" id="brokerId" />
+        <input nz-input formControlName="id" id="id" />
       </nz-form-control>
-    </nz-form-item>
+    </nz-form-item> -->
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="name"
         >Name</nz-form-label
@@ -61,15 +61,15 @@
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="mobileNumber"
-        >Mobile Number</nz-form-label
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="contactNumber"
+        >Contact Number</nz-form-label
       >
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
-        nzErrorTip="The input is not valid Mobile Number!"
+        nzErrorTip="The input is not valid Contact Number!"
       >
-        <input nz-input formControlName="mobileNumber" id="mobileNumber" />
+        <input nz-input formControlName="contactNumber" id="contactNumber" />
       </nz-form-control>
     </nz-form-item>
 

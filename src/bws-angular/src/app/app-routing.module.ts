@@ -11,8 +11,8 @@ const routes: Routes = [
     component: DefaultLayoutComponent,
     children: [
       { path: 'brokers', component: BrokersComponent },
-      { path: 'add-edit', component: AddEditComponent },
-      { path: 'add-edit/:index', component: AddEditComponent },
+      { path: 'brokers/add', component: AddEditComponent },
+      { path: 'brokers/edit/:id', component: AddEditComponent },
     ],
   },
 ];

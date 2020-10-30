@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd/message';
+import { HttpClient } from '@angular/common/http';
 
 import { Broker } from '../_models';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-welcome',
@@ -10,11 +11,14 @@ import { Broker } from '../_models';
 })
 export class BrokersComponent implements OnInit {
   brokers: Broker[] = [];
-  index = -1;
-  sValue: string;
   searchValue: string;
-
   visible = false;
+
+  constructor(private message: NzMessageService, private client: HttpClient) {}
+
+  ngOnInit(): void {
+    this.loadData();
+  }
 
   clickMe(): void {
     this.visible = false;
@@ -24,21 +28,24 @@ export class BrokersComponent implements OnInit {
     console.log(value);
   }
 
-  search(): void {
-    this.searchValue = this.sValue;
-  }
-
   delData(data: number): void {
-    this.brokers.splice(data, 1);
-    const brokersJson: string = JSON.stringify(this.brokers);
-    localStorage.setItem('brokers', brokersJson);
-    this.visible = false;
+    this.client
+      .delete('https://localhost:5001/broker/' + data)
+      .subscribe((_) => {
+        this.loadData();
+      });
     this.message.create('success', `Broker Successfully Deleted`);
   }
 
-  constructor(private message: NzMessageService) {}
-
-  ngOnInit(): void {
-    this.brokers = JSON.parse(localStorage.getItem('brokers')) || [];
+  loadData(): void {
+    this.client.get<Broker[]>('https://localhost:5001/broker').subscribe(
+      (res) => {
+        this.brokers = res;
+        // console.log(res);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }
