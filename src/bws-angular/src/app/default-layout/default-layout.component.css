@@ -13,7 +13,7 @@
 .logo {
   height: 32px;
   background: rgba(255, 255, 255, 0.2);
-  margin: 16px;
+  margin: 14px;
 }
 
 nz-layout {
@@ -40,4 +40,8 @@ nz-breadcrumb {
 
 nz-footer {
   text-align: center;
+}
+
+li {
+  outline: none;
 }

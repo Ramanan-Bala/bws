@@ -3,25 +3,23 @@
 </div>
 <div nz-row nzJustify="end">
   <div nz-col class="top-bottom-space">
-    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+    <nz-input-group [nzSuffix]="suffixIconSearch">
       <input
-        [(ngModel)]="sValue"
+        [(ngModel)]="searchValue"
         type="text"
         nz-input
         placeholder="Search table"
       />
     </nz-input-group>
-    <ng-template #suffixIconButton>
-      <button nz-button nzType="primary" nzSearch (click)="search()">
-        <i nz-icon nzType="search"></i>
-      </button>
+    <ng-template #suffixIconSearch>
+      <i nz-icon nzType="search"></i>
     </ng-template>
   </div>
   <button
     nz-col
     nz-button
     nzType="primary"
-    [routerLink]="['/add-edit', index]"
+    [routerLink]="['/brokers/add']"
     class="top-bottom-space"
   >
     Add
@@ -30,7 +28,7 @@
 <nz-table [nzPageSize]="5" [nzData]="brokers">
   <thead>
     <tr>
-      <th>Broker Id</th>
+      <th>S.No</th>
       <th>Name</th>
       <th>Address Line 1</th>
       <th>Address Line 2</th>
@@ -46,15 +44,15 @@
         let index = index
       "
     >
-      <td>{{ data.brokerId }}</td>
+      <td>{{ index + 1 }}</td>
       <td>{{ data.name }}</td>
       <td>{{ data.addressLine1 }}</td>
       <td>{{ data.addressLine2 }}</td>
       <td>{{ data.city }}</td>
-      <td>{{ data.mobileNumber }}</td>
+      <td>{{ data.contactNumber }}</td>
       <td>
         <a
-          [routerLink]="['/add-edit', this.index]"
+          [routerLink]="['/brokers/edit', data.id]"
           nz-icon
           [nzType]="'edit'"
           [nzTheme]="'twotone'"
@@ -63,15 +61,23 @@
         ></a>
         <nz-divider nzType="vertical"></nz-divider>
         <a
-          (click)="delData()"
+          nz-tooltip
+          nzTooltipTitle="Delete"
           nz-icon
           [nzType]="'delete'"
           [nzTheme]="'twotone'"
           [nzTwotoneColor]="'#eb2f96'"
-          nz-tooltip
-          nzTooltipTitle="Delete"
+          nz-popconfirm
+          nzPopconfirmTitle="Are you sure?"
+          [nzIcon]="iconTpl"
+          nzOkText="ok"
+          nzCancelText="cancel"
+          (nzOnConfirm)="delData(data.id)"
         ></a>
       </td>
     </tr>
   </tbody>
 </nz-table>
+<ng-template #iconTpl>
+  <i nz-icon nzType="question-circle-o" style="color: red"></i>
+</ng-template>

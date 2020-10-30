@@ -12,7 +12,7 @@ export class SearchfilterPipe implements PipeTransform {
     return broker.filter(
       // tslint:disable-next-line: no-shadowed-variable
       (broker) =>
-        broker.brokerId
+        broker.id
           .toString()
           .toLowerCase()
           .includes(searchValue.toLowerCase()) ||
@@ -20,7 +20,7 @@ export class SearchfilterPipe implements PipeTransform {
         broker.addressLine1.toLowerCase().includes(searchValue.toLowerCase()) ||
         broker.addressLine2.toLowerCase().includes(searchValue.toLowerCase()) ||
         broker.city.toLowerCase().includes(searchValue.toLowerCase()) ||
-        broker.mobileNumber
+        broker.contactNumber
           .toString()
           .toLowerCase()
           .includes(searchValue.toLowerCase())
