@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Broker } from '../_models';
-import { SearchfilterPipe } from '../_pipes';
+//import { SearchfilterPipe } from '../_pipes';
 
 @Component({
   selector: 'app-welcome',
