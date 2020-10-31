@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+.tm {
+  margin-top: 10px;
+}
+.rm {
+  margin-right: 10px;
+}
+.bm {
+  margin-bottom: 10px;
+}
+.lm {
+  margin-left: 10px;
+}

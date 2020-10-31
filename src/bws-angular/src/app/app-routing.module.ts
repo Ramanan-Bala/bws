@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { BrokersComponent } from './brokers/brokers.component';
 import { DefaultLayoutComponent } from './default-layout/default-layout.component';
-import { AddEditComponent } from './add-edit/add-edit.component';
+import { BrokerEditComponent } from './brokers/broker-edit.component';
 
 const routes: Routes = [
   {
@@ -11,8 +11,8 @@ const routes: Routes = [
     component: DefaultLayoutComponent,
     children: [
       { path: 'brokers', component: BrokersComponent },
-      { path: 'brokers/add', component: AddEditComponent },
-      { path: 'brokers/edit/:id', component: AddEditComponent },
+      { path: 'brokers/add', component: BrokerEditComponent },
+      { path: 'brokers/edit/:id', component: BrokerEditComponent },
     ],
   },
 ];

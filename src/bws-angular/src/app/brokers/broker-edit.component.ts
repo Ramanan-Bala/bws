@@ -12,15 +12,52 @@ import {
 import { Broker } from '../_models';
 
 @Component({
-  selector: 'app-add-edit',
-  templateUrl: './add-edit.component.html',
-  styleUrls: ['./add-edit.component.css'],
+  selector: 'app-broker-edit',
+  templateUrl: './broker-edit.component.html',
+  styleUrls: ['./broker-edit.component.css'],
 })
-export class AddEditComponent implements OnInit {
+export class BrokerEditComponent implements OnInit {
   id = undefined;
   title: string;
   validateForm!: FormGroup;
   submitted = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private message: NzMessageService,
+    private client: HttpClient
+  ) {
+    this.id = this.route.snapshot.params.id;
+
+    // tslint:disable-next-line: triple-equals
+    if (this.id == undefined) {
+      this.title = 'Add Broker';
+    } else if (this.id >= 0) {
+      this.title = 'Edit Broker';
+      this.client
+        .get<Broker>('https://localhost:5001/broker/' + this.id)
+        .subscribe((res) => {
+          this.f.name.setValue(res.name);
+          this.f.addressLine1.setValue(res.addressLine1);
+          this.f.addressLine2.setValue(res.addressLine2);
+          this.f.city.setValue(res.city);
+          this.f.contactNumber.setValue(res.contactNumber);
+        });
+    }
+  }
+
+  // tslint:disable-next-line: typedef
+  ngOnInit() {
+    this.validateForm = this.fb.group({
+      name: ['', [Validators.required]],
+      addressLine1: ['', [Validators.required]],
+      addressLine2: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      contactNumber: ['', [Validators.required]],
+    });
+  }
 
   get f(): { [key: string]: AbstractControl } {
     return this.validateForm.controls;
@@ -72,41 +109,7 @@ export class AddEditComponent implements OnInit {
       }
     }
   }
-
-  constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    private message: NzMessageService,
-    private client: HttpClient
-  ) {
-    this.id = this.route.snapshot.params.id;
-
-    // tslint:disable-next-line: triple-equals
-    if (this.id == undefined) {
-      this.title = 'Add Broker';
-    } else if (this.id >= 0) {
-      this.title = 'Edit Broker';
-      this.client
-        .get<Broker>('https://localhost:5001/broker/' + this.id)
-        .subscribe((res) => {
-          this.f.name.setValue(res.name);
-          this.f.addressLine1.setValue(res.addressLine1);
-          this.f.addressLine2.setValue(res.addressLine2);
-          this.f.city.setValue(res.city);
-          this.f.contactNumber.setValue(res.contactNumber);
-        });
-    }
-  }
-
-  // tslint:disable-next-line: typedef
-  ngOnInit() {
-    this.validateForm = this.fb.group({
-      name: ['', [Validators.required]],
-      addressLine1: ['', [Validators.required]],
-      addressLine2: ['', [Validators.required]],
-      city: ['', [Validators.required]],
-      contactNumber: ['', [Validators.required]],
-    });
+  cancelForm(): void {
+    this.router.navigate(['/brokers']);
   }
 }

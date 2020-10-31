@@ -1,5 +1,5 @@
 <nz-card nzTitle="{{ title }}" class="card-center">
-  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <form nz-form [formGroup]="validateForm">
     <!-- <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="id"
         >Broker Id</nz-form-label
@@ -75,7 +75,10 @@
 
     <nz-form-item nz-row class="register-area">
       <nz-form-control [nzSpan]="14" [nzOffset]="6">
-        <button nz-button nzType="primary">Submit</button>
+        <button (click)="submitForm()" nz-button nzType="primary">
+          Submit
+        </button>
+        <button (click)="cancelForm()" nz-button class="lm">cancel</button>
       </nz-form-control>
     </nz-form-item>
   </form>
