@@ -1,32 +1,34 @@
-<nz-card nzTitle="Brokers" [nzExtra]="extraTemplate" class="tm">
-  <nz-table [nzPageSize]="5" [nzData]="brokers">
+<nz-card nzTitle="Sales Summary" class="tm" [nzExtra]="extraTemplate">
+  <nz-table
+    #salesTable
+    nzShowPagination
+    nzShowSizeChanger
+    nzSize="small"
+    [nzData]="salesSummary"
+    [nzShowTotal]="rangeTemplate"
+  >
     <thead>
       <tr>
         <th>S.No</th>
         <th>Broker Name</th>
-        <th>Address Line 1</th>
-        <th>Address Line 2</th>
-        <th>City</th>
-        <th>Mobile</th>
+        <th>Bill Number</th>
+        <th>Bill Date</th>
+        <th>Bill Quantity</th>
+        <th>Bill Amount</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="
-          let data of brokers | searchFilter: searchValue;
-          let index = index
-        "
-      >
+      <tr *ngFor="let data of salesTable.data; let index = index">
         <td>{{ index + 1 }}</td>
         <td>{{ data.brokerName }}</td>
-        <td>{{ data.addressLine1 }}</td>
-        <td>{{ data.addressLine2 }}</td>
-        <td>{{ data.city }}</td>
-        <td>{{ data.contactNumber }}</td>
+        <td>{{ data.billNumber }}</td>
+        <td>{{ data.billDate }}</td>
+        <td>{{ data.billQuantity }}</td>
+        <td>{{ data.billAmount }}</td>
         <td>
           <a
-            [routerLink]="['/brokers/edit', data.id]"
+            [routerLink]="['/summary/edit', data.id]"
             nz-icon
             [nzType]="'edit'"
             [nzTheme]="'twotone'"
@@ -53,6 +55,7 @@
     </tbody>
   </nz-table>
 </nz-card>
+
 <ng-template #extraTemplate>
   <div nz-row>
     <div nz-col>
@@ -72,13 +75,18 @@
       nz-col
       nz-button
       nzType="primary"
-      [routerLink]="['/brokers/add']"
+      [routerLink]="['/summary/add']"
       class="lm"
     >
       Add
     </button>
   </div>
 </ng-template>
+
 <ng-template #iconTpl>
   <i nz-icon nzType="question-circle-o" style="color: red"></i>
+</ng-template>
+
+<ng-template #rangeTemplate let-range="range" let-total>
+  {{ range[0] }}-{{ range[1] }} of {{ total }} items
 </ng-template>

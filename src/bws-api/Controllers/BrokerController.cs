@@ -33,8 +33,8 @@ namespace bws_api.Controllers
         {
             using (var con = Connect())
             {
-                broker.Id = con.QuerySingle<int>("INSERT INTO brokers (Name,AddressLine1,AddressLine2,City,ContactNumber)" +
-                "VALUES (@name,@addressLine1,@addressLine2,@city,@contactNumber);SELECT last_insert_id()", broker);
+                broker.Id = con.QuerySingle<int>("INSERT INTO brokers (BrokerName,AddressLine1,AddressLine2,City,ContactNumber)" +
+                "VALUES (@brokerName,@addressLine1,@addressLine2,@city,@contactNumber);SELECT last_insert_id()", broker);
                 return CreatedAtAction(nameof(GetById), new { id = broker.Id }, broker);
             }
         }
@@ -48,7 +48,7 @@ namespace bws_api.Controllers
             }
             using (var con = Connect())
             {
-                con.Execute("UPDATE brokers SET Name=@name,AddressLine1=@addressLine1,AddressLine2=@addressLine2,City=@city,ContactNumber=@contactNumber" +
+                con.Execute("UPDATE brokers SET BrokerName=@brokerName,AddressLine1=@addressLine1,AddressLine2=@addressLine2,City=@city,ContactNumber=@contactNumber" +
                 " WHERE Id=@id", broker);
                 return Ok(broker);
             }

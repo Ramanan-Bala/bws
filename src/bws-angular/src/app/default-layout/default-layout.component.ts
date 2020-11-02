@@ -7,7 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DefaultLayoutComponent implements OnInit {
   isCollapsed = false;
+  openMap: { [name: string]: boolean } = {
+    sub1: false,
+    sub2: false,
+  };
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  openHandler(value: string): void {
+    for (const key in this.openMap) {
+      if (key !== value) {
+        this.openMap[key] = false;
+      }
+    }
+  }
 }

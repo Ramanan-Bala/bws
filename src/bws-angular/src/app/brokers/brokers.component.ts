@@ -41,6 +41,7 @@ export class BrokersComponent implements OnInit {
     this.client.get<Broker[]>('https://localhost:5001/broker').subscribe(
       (res) => {
         this.brokers = res;
+        // console.log(this.brokers);
         // console.log(res);
       },
       (err) => {

@@ -1,6 +1,6 @@
 export interface Broker {
   id?: number;
-  name: string;
+  brokerName: string;
   addressLine1: string;
   addressLine2: string;
   city: string;

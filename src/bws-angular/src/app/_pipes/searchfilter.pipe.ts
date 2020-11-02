@@ -16,7 +16,7 @@ export class SearchfilterPipe implements PipeTransform {
           .toString()
           .toLowerCase()
           .includes(searchValue.toLowerCase()) ||
-        broker.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+        broker.brokerName.toLowerCase().includes(searchValue.toLowerCase()) ||
         broker.addressLine1.toLowerCase().includes(searchValue.toLowerCase()) ||
         broker.addressLine2.toLowerCase().includes(searchValue.toLowerCase()) ||
         broker.city.toLowerCase().includes(searchValue.toLowerCase()) ||

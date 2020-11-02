@@ -39,7 +39,7 @@ export class BrokerEditComponent implements OnInit {
       this.client
         .get<Broker>('https://localhost:5001/broker/' + this.id)
         .subscribe((res) => {
-          this.f.name.setValue(res.name);
+          this.f.name.setValue(res.brokerName);
           this.f.addressLine1.setValue(res.addressLine1);
           this.f.addressLine2.setValue(res.addressLine2);
           this.f.city.setValue(res.city);
@@ -79,7 +79,7 @@ export class BrokerEditComponent implements OnInit {
       if (this.id == undefined) {
         console.log('ADD');
         const data: Broker = {
-          name: this.f.name.value,
+          brokerName: this.f.name.value,
           addressLine1: this.f.addressLine1.value,
           addressLine2: this.f.addressLine2.value,
           city: this.f.city.value,
@@ -94,7 +94,7 @@ export class BrokerEditComponent implements OnInit {
       } else {
         const data: Broker = {
           id: this.id,
-          name: this.f.name.value,
+          brokerName: this.f.name.value,
           addressLine1: this.f.addressLine1.value,
           addressLine2: this.f.addressLine2.value,
           city: this.f.city.value,

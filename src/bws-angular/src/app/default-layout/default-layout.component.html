@@ -2,26 +2,38 @@
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <div class="logo"></div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-menu-item nzSelected routerLink="/brokers">
+      <li nz-menu-item routerLink="/brokers">
         <i nz-icon nzType="user"></i>
         <span>Broker</span>
       </li>
-      <li nz-submenu nzTitle="User" nzIcon="user">
+      <li nz-menu-item routerLink="/summary">
+        <i nz-icon nzType="area-chart" nzTheme="outline"></i>
+        <span>Sales Summary</span>
+      </li>
+      <li
+        nz-submenu
+        [(nzOpen)]="openMap.sub1"
+        (nzOpenChange)="openHandler('sub1')"
+        nzTitle="User"
+        nzIcon="user"
+      >
         <ul>
           <li nz-menu-item>Tom</li>
           <li nz-menu-item>Bill</li>
           <li nz-menu-item>Alex</li>
         </ul>
       </li>
-      <li nz-submenu nzTitle="Team" nzIcon="team">
+      <li
+        nz-submenu
+        [(nzOpen)]="openMap.sub2"
+        (nzOpenChange)="openHandler('sub2')"
+        nzTitle="Team"
+        nzIcon="team"
+      >
         <ul>
           <li nz-menu-item>Team 1</li>
           <li nz-menu-item>Team 2</li>
         </ul>
-      </li>
-      <li nz-menu-item>
-        <i nz-icon nzType="file"></i>
-        <span>File</span>
       </li>
     </ul>
   </nz-sider>
@@ -37,6 +49,6 @@
     <nz-content>
       <router-outlet></router-outlet>
     </nz-content>
-    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+    <!-- <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer> -->
   </nz-layout>
 </nz-layout>
