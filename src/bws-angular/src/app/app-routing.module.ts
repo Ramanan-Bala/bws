@@ -6,6 +6,7 @@ import { BrokersComponent } from './brokers/brokers.component';
 import { DefaultLayoutComponent } from './default-layout/default-layout.component';
 import { BrokerEditComponent } from './brokers/broker-edit.component';
 import { SalesSummaryEditComponent } from './sales-summary/sales-summary-edit.component';
+import { CalculationComponent } from './calculation/calculation.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,9 @@ const routes: Routes = [
       { path: 'summary', component: SalesSummaryComponent },
       { path: 'summary/add', component: SalesSummaryEditComponent },
       { path: 'summary/edit/:id', component: SalesSummaryEditComponent },
+      { path: 'calculation', component: CalculationComponent },
+      { path: 'calculation/add', component: CalculationComponent },
+      { path: 'calculation/edit/:id', component: CalculationComponent },
     ],
   },
 ];

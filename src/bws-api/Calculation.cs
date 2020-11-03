@@ -2,7 +2,7 @@ using System;
 
 namespace bws_api
 {
-    public class Calc
+    public class Calculation
     {
         public int Id { get; set; }
         public string Calcfield { get; set; }

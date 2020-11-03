@@ -1,0 +1,90 @@
+<nz-card nzTitle="Wages Report" class="tm" [nzExtra]="extraTemplate">
+  <nz-table
+    #wagesTable
+    nzShowPagination
+    nzShowSizeChanger
+    nzSize="small"
+    [nzData]="wagesReport"
+    [nzShowTotal]="rangeTemplate"
+  >
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Broker Name</th>
+        <th>Bill Date</th>
+        <th>Config Method</th>
+        <th>Commission Amount</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of wagesTable.data; let index = index">
+        <td>{{ index + 1 }}</td>
+        <td>{{ data.brokerName }}</td>
+        <td>{{ data.calcDate }}</td>
+        <td>{{ data.calcField }}</td>
+        <td>{{ data.calcAmount }}</td>
+        <td>
+          <a
+            [routerLink]="['/calculation/edit', data.id]"
+            nz-icon
+            [nzType]="'edit'"
+            [nzTheme]="'twotone'"
+            nz-tooltip
+            nzTooltipTitle="Edit"
+          ></a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a
+            nz-tooltip
+            nzTooltipTitle="Delete"
+            nz-icon
+            [nzType]="'delete'"
+            [nzTheme]="'twotone'"
+            [nzTwotoneColor]="'#eb2f96'"
+            nz-popconfirm
+            nzPopconfirmTitle="Are you sure?"
+            [nzIcon]="iconTpl"
+            nzOkText="ok"
+            nzCancelText="cancel"
+            (nzOnConfirm)="delData(data.id)"
+          ></a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</nz-card>
+
+<ng-template #extraTemplate>
+  <div nz-row>
+    <div nz-col>
+      <nz-input-group [nzSuffix]="suffixIconSearch">
+        <input
+          [(ngModel)]="searchValue"
+          type="text"
+          nz-input
+          placeholder="Search table"
+        />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <i nz-icon nzType="search"></i>
+      </ng-template>
+    </div>
+    <button
+      nz-col
+      nz-button
+      nzType="primary"
+      [routerLink]="['/calculation/add']"
+      class="lm"
+    >
+      Add
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #iconTpl>
+  <i nz-icon nzType="question-circle-o" style="color: red"></i>
+</ng-template>
+
+<ng-template #rangeTemplate let-range="range" let-total>
+  {{ range[0] }}-{{ range[1] }} of {{ total }} items
+</ng-template>

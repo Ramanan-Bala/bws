@@ -22,6 +22,7 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
 import en from '@angular/common/locales/en';
 import { SalesSummaryEditComponent } from './sales-summary/sales-summary-edit.component';
+import { CalculationComponent } from './calculation/calculation.component';
 
 registerLocaleData(en);
 
@@ -34,6 +35,7 @@ registerLocaleData(en);
     BrokerEditComponent,
     SalesSummaryComponent,
     SalesSummaryEditComponent,
+    CalculationComponent,
   ],
   imports: [
     BrowserModule,
