@@ -19,7 +19,7 @@
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
-        nzErrorTip="The input is not valid brokerId!"
+        nzErrorTip="The input is not valid Broker Name!"
       >
         <input
           nz-input
@@ -66,7 +66,10 @@
         [nzXs]="24"
         nzErrorTip="The input is not valid Bill Date!"
       >
-        <input nz-input formControlName="billDate" id="billDate" />
+        <nz-date-picker
+          formControlName="billDate"
+          id="billDate"
+        ></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

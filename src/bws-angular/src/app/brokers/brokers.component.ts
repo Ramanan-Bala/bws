@@ -13,6 +13,7 @@ export class BrokersComponent implements OnInit {
   brokers: Broker[] = [];
   searchValue: string;
   visible = false;
+  loading = true;
 
   constructor(private message: NzMessageService, private client: HttpClient) {}
 
@@ -41,6 +42,7 @@ export class BrokersComponent implements OnInit {
     this.client.get<Broker[]>('https://localhost:5001/broker').subscribe(
       (res) => {
         this.brokers = res;
+        this.loading = false;
         // console.log(this.brokers);
         // console.log(res);
       },

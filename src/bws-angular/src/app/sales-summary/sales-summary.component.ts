@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
-import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { Observable } from 'rxjs';
-
-import { Sales } from '../_models';
+import { Sales, salesHeader, Sort } from '../_models';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
@@ -16,12 +13,18 @@ export class SalesSummaryComponent implements OnInit {
   salesSummary: Sales[] = [];
   searchValue: string;
   visible = false;
+  loading = true;
+  sort: Sort[] = salesHeader;
 
   constructor(private message: NzMessageService, private client: HttpClient) {}
 
   ngOnInit(): void {
     this.loadData();
   }
+
+  // trackByName(_: number, item: Sales): string {
+  //   return item.brokerName;
+  // }
 
   clickMe(): void {
     this.visible = false;
@@ -40,6 +43,7 @@ export class SalesSummaryComponent implements OnInit {
     this.client.get<Sales[]>('https://localhost:5001/SalesSummary').subscribe(
       (res) => {
         this.salesSummary = res;
+        this.loading = false;
       },
       (err) => {
         console.log(err);

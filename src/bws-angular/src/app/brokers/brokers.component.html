@@ -1,5 +1,15 @@
 <nz-card nzTitle="Brokers" [nzExtra]="extraTemplate" class="tm">
-  <nz-table [nzPageSize]="5" [nzData]="brokers">
+  <nz-table
+    [nzLoading]="loading"
+    [nzPageSize]="10"
+    [nzPageSizeOptions]="[5, 10, 20]"
+    #brokerTable
+    nzShowPagination
+    nzShowSizeChanger
+    nzSize="small"
+    [nzShowTotal]="rangeTemplate"
+    [nzData]="brokers"
+  >
     <thead>
       <tr>
         <th>S.No</th>
@@ -14,7 +24,7 @@
     <tbody>
       <tr
         *ngFor="
-          let data of brokers | searchFilter: searchValue;
+          let data of brokerTable.data | brokerSearch: searchValue;
           let index = index
         "
       >
@@ -81,4 +91,7 @@
 </ng-template>
 <ng-template #iconTpl>
   <i nz-icon nzType="question-circle-o" style="color: red"></i>
+</ng-template>
+<ng-template #rangeTemplate let-range="range" let-total>
+  {{ range[0] }}-{{ range[1] }} of {{ total }} items
 </ng-template>

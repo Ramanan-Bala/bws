@@ -4,3 +4,5 @@ export * from './broker';
 export * from './calculation';
 export * from './payment';
 export * from './salesSummary';
+export * from './sort';
+export * from './salesHeader';

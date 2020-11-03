@@ -1,1 +1,2 @@
-export * from './searchFilter.pipe';
+export * from './brokerSearch.pipe';
+export * from './salesSearch.pipe';
