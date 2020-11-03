@@ -11,7 +11,7 @@ import { SalesSummaryComponent } from './sales-summary/sales-summary.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { SearchfilterPipe } from './_pipes/searchfilter.pipe';
+import { BrokerSearchPipe, SalesSearchPipe } from './_pipes';
 
 import { IconsProviderModule } from './icons-provider.module';
 import { NgZorroAntdModule } from './ng-zorro-antd.module';
@@ -29,7 +29,8 @@ registerLocaleData(en);
   declarations: [
     AppComponent,
     BrokersComponent,
-    SearchfilterPipe,
+    BrokerSearchPipe,
+    SalesSearchPipe,
     DefaultLayoutComponent,
     BrokerEditComponent,
     SalesSummaryComponent,

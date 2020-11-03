@@ -1,5 +1,8 @@
 <nz-card nzTitle="Sales Summary" class="tm" [nzExtra]="extraTemplate">
   <nz-table
+    [nzLoading]="loading"
+    [nzPageSize]="10"
+    [nzPageSizeOptions]="[5, 10, 20]"
     #salesTable
     nzShowPagination
     nzShowSizeChanger
@@ -10,16 +13,23 @@
     <thead>
       <tr>
         <th>S.No</th>
-        <th>Broker Name</th>
-        <th>Bill Number</th>
-        <th>Bill Date</th>
-        <th>Bill Quantity</th>
-        <th>Bill Amount</th>
-        <th>Action</th>
+        <th
+          *ngFor="let data of sort; let index = index"
+          [nzSortOrder]="data.sortOrder"
+          [nzSortFn]="data.sortFn"
+          [nzSortDirections]="data.sortDirections"
+        >
+          {{ data.name }}
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of salesTable.data; let index = index">
+      <tr
+        *ngFor="
+          let data of salesTable.data | salesSearch: searchValue;
+          let index = index
+        "
+      >
         <td>{{ index + 1 }}</td>
         <td>{{ data.brokerName }}</td>
         <td>{{ data.billNumber }}</td>
