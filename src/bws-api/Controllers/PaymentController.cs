@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using Dapper;
+using System;
 
 namespace bws_api.Controllers
 {
@@ -18,12 +19,21 @@ namespace bws_api.Controllers
         //         return Ok(payment);
         //     }
         // }
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        [HttpGet]
+        public IActionResult GetAll(int id, string paymentField, DateTime from, DateTime to)
         {
+            string query = "SELECT b.BrokerName ,p.PaymentDate ,p.PaymentAmount " +
+                    "FROM payment p " +
+                    "LEFT JOIN brokers b on p.BrokerId = b.Id " +
+                    "WHERE PaymentField = @paymentField AND PaymentDate BETWEEN @from AND @to ";
+
+            if (id > 0)
+            {
+                query = query + " AND BrokerId = @id";
+            }
             using (var con = Connect())
             {
-                var payment = con.QuerySingle<Broker>("SELECT * FROM payment WHERE BrokerId=@id", new { id });
+                var payment = con.Query<Payment>(query, new { id, paymentField, from, to });
                 return Ok(payment);
             }
         }

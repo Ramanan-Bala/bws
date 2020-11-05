@@ -9,16 +9,15 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { Sales, Broker } from '../_models';
+import { Broker, Payment } from '../_models';
 import { toDateString } from '../_helpers';
 
 @Component({
-  selector: 'app-sales-summary-edit',
-  encapsulation: ViewEncapsulation.None,
-  templateUrl: './sales-summary-edit.component.html',
-  styleUrls: ['./sales-summary-edit.component.css'],
+  selector: 'app-payment-edit',
+  templateUrl: './payment-edit.component.html',
+  styleUrls: ['./payment-edit.component.css'],
 })
-export class SalesSummaryEditComponent implements OnInit {
+export class PaymentEditComponent implements OnInit {
   id = undefined;
   title: string;
   dateFormat = 'yyyy-MM-dd';
@@ -48,13 +47,12 @@ export class SalesSummaryEditComponent implements OnInit {
     } else if (this.id >= 0) {
       this.title = 'Edit Summary';
       this.client
-        .get<Sales>('https://localhost:5001/SalesSummary/' + this.id)
+        .get<Payment>('https://localhost:5001/Payment/' + this.id)
         .subscribe((res) => {
           this.f.brokerId.setValue(res.brokerId);
-          this.f.billNumber.setValue(res.billNumber);
-          this.f.billDate.setValue(res.billDate);
-          this.f.billQuantity.setValue(res.billQuantity);
-          this.f.billAmount.setValue(res.billAmount);
+          this.f.paymentField.setValue(res.paymentField);
+          this.f.paymentDate.setValue(res.paymentDate);
+          this.f.paymentAmount.setValue(res.paymentAmount);
         });
     }
   }
@@ -62,14 +60,6 @@ export class SalesSummaryEditComponent implements OnInit {
   onChange(result: Date): void {
     // console.log(result.getUTCDate());
   }
-
-  // compareFun(b1: Broker | string, b2: Broker): boolean {
-  //   if (b1) {
-  //     return typeof b1 === 'string' ? b1 === b2.brokerName : b1.id === b2.id;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 
   compareFun(b1: number | string, b2: number): boolean {
     if (b1) {
@@ -84,10 +74,9 @@ export class SalesSummaryEditComponent implements OnInit {
   ngOnInit() {
     this.validateForm = this.fb.group({
       brokerId: ['', [Validators.required]],
-      billNumber: ['', [Validators.required]],
-      billDate: ['', [Validators.required]],
-      billQuantity: ['', [Validators.required]],
-      billAmount: ['', [Validators.required]],
+      paymentField: ['', [Validators.required]],
+      paymentDate: ['', [Validators.required]],
+      paymentAmount: ['', [Validators.required]],
     });
   }
 
@@ -116,12 +105,11 @@ export class SalesSummaryEditComponent implements OnInit {
     } else {
       // tslint:disable-next-line: triple-equals
       if (this.id == undefined) {
-        const data: Sales = {
+        const data: Payment = {
           brokerId: this.f.brokerId.value,
-          billNumber: this.f.billNumber.value,
-          billDate: toDateString(this.f.billDate.value),
-          billQuantity: this.f.billQuantity.value,
-          billAmount: this.f.billAmount.value,
+          paymentField: this.f.paymentField.value,
+          paymentDate: toDateString(this.f.paymentDate.value),
+          paymentAmount: this.f.paymentAmount.value,
         };
         // console.log('ADD', data.brokerId);
         this.client
@@ -131,17 +119,16 @@ export class SalesSummaryEditComponent implements OnInit {
             this.message.create('success', `Summary Successfully Added`);
           });
       } else {
-        const data: Sales = {
+        const data: Payment = {
           id: this.id,
           brokerId: this.f.brokerId.value,
-          billNumber: this.f.billNumber.value,
-          billDate: toDateString(this.f.billDate.value),
-          billQuantity: this.f.billQuantity.value,
-          billAmount: this.f.billAmount.value,
+          paymentField: this.f.paymentField.value,
+          paymentDate: toDateString(this.f.paymentDate.value),
+          paymentAmount: this.f.paymentAmount.value,
         };
         // console.log('EDIT', data.brokerId);
         this.client
-          .put('https://localhost:5001/SalesSummary/' + this.id, data)
+          .put('https://localhost:5001/Payment/' + this.id, data)
           .subscribe((_) => {
             this.router.navigate(['/summary']);
             this.message.create('success', `Summary Successfully Edited`);

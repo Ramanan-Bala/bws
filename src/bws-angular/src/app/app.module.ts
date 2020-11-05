@@ -24,6 +24,7 @@ import en from '@angular/common/locales/en';
 import { SalesSummaryEditComponent } from './sales-summary/sales-summary-edit.component';
 import { CommissionComponent } from './commission/commission.component';
 import { PaymentComponent } from './payment/payment.component';
+import { PaymentEditComponent } from './payment/payment-edit.component';
 
 registerLocaleData(en);
 
@@ -39,6 +40,7 @@ registerLocaleData(en);
     SalesSummaryEditComponent,
     CommissionComponent,
     PaymentComponent,
+    PaymentEditComponent,
   ],
   imports: [
     BrowserModule,

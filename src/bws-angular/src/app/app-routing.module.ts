@@ -1,3 +1,4 @@
+import { PaymentEditComponent } from './payment/payment-edit.component';
 import { PaymentComponent } from './payment/payment.component';
 import { CommissionComponent } from './commission/commission.component';
 import { SalesSummaryComponent } from './sales-summary/sales-summary.component';
@@ -22,6 +23,8 @@ const routes: Routes = [
       { path: 'summary/edit/:id', component: SalesSummaryEditComponent },
       { path: 'commission', component: CommissionComponent },
       { path: 'payment', component: PaymentComponent },
+      { path: 'payment/add', component: PaymentEditComponent },
+      { path: 'payment/edit/:id', component: PaymentEditComponent },
     ],
   },
 ];

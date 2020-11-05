@@ -17,15 +17,14 @@ export class CommissionComponent implements OnInit {
   from: string;
   to: string;
   date = null;
-  dates: Date[] = [];
 
   constructor(private client: HttpClient) {}
 
   ngOnInit(): void {}
 
   loadData(): void {
-    console.log('From', this.from);
-    console.log('To', this.to);
+    // console.log('From', this.from);
+    // console.log('To', this.to);
     this.client
       .get<Commission[]>(
         'https://localhost:5001/calculation?calcField=COMMN&from=' +
@@ -38,6 +37,7 @@ export class CommissionComponent implements OnInit {
         this.hideTable = true;
       });
   }
+
   onSubmit(): void {
     this.client
       .post<Commission[]>(

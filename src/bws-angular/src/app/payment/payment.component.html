@@ -1,5 +1,6 @@
 <nz-card nzTitle="Payment" [nzExtra]="extraTemplate" class="tm">
   <nz-table
+    *ngIf="hideTable"
     [nzLoading]="loading"
     [nzPageSize]="10"
     [nzPageSizeOptions]="[5, 10, 20]"
@@ -14,10 +15,11 @@
       <tr>
         <th>S.No</th>
         <th>Broker Name</th>
-        <th>Address Line 1</th>
-        <th>Address Line 2</th>
+        <th>Payment Date</th>
+        <th>Paid Amount</th>
+        <!-- <th>Address Line 2</th>
         <th>City</th>
-        <th>Mobile</th>
+        <th>Mobile</th> -->
         <th>Action</th>
       </tr>
     </thead>
@@ -25,10 +27,11 @@
       <tr *ngFor="let data of paymentTable.data; let index = index">
         <td>{{ index + 1 }}</td>
         <td>{{ data.brokerName }}</td>
-        <td>{{ data.addressLine1 }}</td>
-        <td>{{ data.addressLine2 }}</td>
+        <td>{{ data.paymentDate | date: "yyyy-MM-dd" }}</td>
+        <td>{{ data.paymentAmount }}</td>
+        <!-- <td>{{ data.addressLine2 }}</td>
         <td>{{ data.city }}</td>
-        <td>{{ data.contactNumber }}</td>
+        <td>{{ data.contactNumber }}</td> -->
         <td>
           <a
             [routerLink]="['/brokers/edit', data.id]"
@@ -59,7 +62,53 @@
   </nz-table>
 </nz-card>
 <ng-template #extraTemplate>
-  <div nz-row>
+  <nz-select
+    nzShowSearch
+    nzAllowClear
+    nzPlaceHolder="Choose Broker"
+    [(ngModel)]="brokerId"
+  >
+    <nz-option
+      *ngFor="let broker of brokers"
+      [nzLabel]="broker.brokerName"
+      [nzValue]="broker.id"
+    ></nz-option>
+  </nz-select>
+  <nz-select
+    nzShowSearch
+    nzAllowClear
+    nzPlaceHolder="Choose Method"
+    [(ngModel)]="paymentField"
+  >
+    <nz-option nzLabel="Commission" nzValue="COMMN"></nz-option>
+    <nz-option nzLabel="Bonus" nzValue="BONUS"></nz-option>
+  </nz-select>
+  <nz-range-picker
+    [(ngModel)]="date"
+    (ngModelChange)="onChange($event)"
+  ></nz-range-picker>
+  <button nz-button nzType="primary" class="lm" (click)="loadData()">
+    Submit
+  </button>
+
+  <button
+    nz-col
+    nz-button
+    nzType="primary"
+    [routerLink]="['/payment/add']"
+    class="lm"
+  >
+    Add
+  </button>
+</ng-template>
+<ng-template #iconTpl>
+  <i nz-icon nzType="question-circle-o" style="color: red"></i>
+</ng-template>
+<ng-template #rangeTemplate let-range="range" let-total>
+  {{ range[0] }}-{{ range[1] }} of {{ total }} items
+</ng-template>
+<!-- <ng-template #header>
+  <div nz-row nzJustify="end">
     <button
       nz-col
       nz-button
@@ -70,10 +119,4 @@
       Add
     </button>
   </div>
-</ng-template>
-<ng-template #iconTpl>
-  <i nz-icon nzType="question-circle-o" style="color: red"></i>
-</ng-template>
-<ng-template #rangeTemplate let-range="range" let-total>
-  {{ range[0] }}-{{ range[1] }} of {{ total }} items
-</ng-template>
+</ng-template> -->
