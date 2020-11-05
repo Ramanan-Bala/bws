@@ -1,6 +1,7 @@
 import { Commission } from './../_models';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { toDateString } from '../_helpers';
 
 @Component({
   selector: 'app-commission',
@@ -13,20 +14,24 @@ export class CommissionComponent implements OnInit {
   searchValue: string;
   calcField: string;
   commission: Commission[] = [];
-  fromDate: Date;
-  toDate: Date;
+  from: string;
+  to: string;
+  date = null;
+  dates: Date[] = [];
 
   constructor(private client: HttpClient) {}
 
   ngOnInit(): void {}
 
   loadData(): void {
+    console.log('From', this.from);
+    console.log('To', this.to);
     this.client
       .get<Commission[]>(
         'https://localhost:5001/calculation?calcField=COMMN&from=' +
-          this.fromDate +
+          this.from +
           '&to=' +
-          this.toDate
+          this.to
       )
       .subscribe((res) => {
         this.commission = res;
@@ -37,13 +42,18 @@ export class CommissionComponent implements OnInit {
     this.client
       .post<Commission[]>(
         'https://localhost:5001/calculation?calcField=COMMN&from=' +
-          this.fromDate +
+          this.from +
           '&to=' +
-          this.toDate,
+          this.to,
         this.commission
       )
       .subscribe((_) => {
         this.hideTable = false;
       });
+  }
+
+  onChange(result: Date[]): void {
+    this.from = toDateString(result[0]);
+    this.to = toDateString(result[1]);
   }
 }

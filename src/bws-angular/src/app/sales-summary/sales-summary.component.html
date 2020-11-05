@@ -33,7 +33,7 @@
         <td>{{ index + 1 }}</td>
         <td>{{ data.brokerName }}</td>
         <td>{{ data.billNumber }}</td>
-        <td>{{ data.billDate }}</td>
+        <td>{{ data.billDate | date: "yyyy-MM-dd" }}</td>
         <td>{{ data.billQuantity }}</td>
         <td>{{ data.billAmount }}</td>
         <td>

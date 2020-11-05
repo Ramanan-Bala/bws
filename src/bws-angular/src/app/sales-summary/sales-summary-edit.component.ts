@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 
 import { Sales, Broker } from '../_models';
+import { toDateString } from '../_helpers';
 
 @Component({
   selector: 'app-sales-summary-edit',
@@ -49,7 +50,6 @@ export class SalesSummaryEditComponent implements OnInit {
       this.client
         .get<Sales>('https://localhost:5001/SalesSummary/' + this.id)
         .subscribe((res) => {
-          console.log(res.billDate);
           this.f.brokerId.setValue(res.brokerId);
           this.f.billNumber.setValue(res.billNumber);
           this.f.billDate.setValue(res.billDate);
@@ -119,7 +119,7 @@ export class SalesSummaryEditComponent implements OnInit {
         const data: Sales = {
           brokerId: this.f.brokerId.value,
           billNumber: this.f.billNumber.value,
-          billDate: this.f.billDate.value,
+          billDate: toDateString(this.f.billDate.value),
           billQuantity: this.f.billQuantity.value,
           billAmount: this.f.billAmount.value,
         };
@@ -135,7 +135,7 @@ export class SalesSummaryEditComponent implements OnInit {
           id: this.id,
           brokerId: this.f.brokerId.value,
           billNumber: this.f.billNumber.value,
-          billDate: this.f.billDate.value,
+          billDate: toDateString(this.f.billDate.value),
           billQuantity: this.f.billQuantity.value,
           billAmount: this.f.billAmount.value,
         };

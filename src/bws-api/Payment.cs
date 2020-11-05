@@ -1,3 +1,5 @@
+using System;
+
 namespace bws_api
 {
     public class Payment

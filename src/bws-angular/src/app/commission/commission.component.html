@@ -1,35 +1,35 @@
 <nz-card nzTitle="Commission" class="tm" [nzExtra]="extraTemplate">
-  <nz-table
-    *ngIf="hideTable"
-    [nzLoading]="loading"
-    [nzPageSize]="10"
-    [nzPageSizeOptions]="[5, 10, 20]"
-    #salesTable
-    nzShowPagination
-    nzShowSizeChanger
-    nzSize="small"
-    [nzData]="commission"
-    [nzShowTotal]="rangeTemplate"
-  >
-    <thead>
-      <tr>
-        <th>S.No</th>
-        <th>Broker Name</th>
-        <th>Date</th>
-        <th>Total Sales</th>
-        <th>Commission Percentage</th>
-        <th>Commission Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of salesTable.data; let index = index">
-        <td>{{ index + 1 }}</td>
-        <td>{{ data.brokerName }}</td>
-        <td>{{ data.calcDate }}</td>
-        <td>{{ data.totalSales }}</td>
-        <td>{{ data.calcPercentage }}</td>
-        <td>{{ data.calcAmount }}</td>
-        <!-- <td>
+  <div *ngIf="hideTable">
+    <nz-table
+      [nzLoading]="loading"
+      [nzPageSize]="10"
+      [nzPageSizeOptions]="[5, 10, 20]"
+      #salesTable
+      nzShowPagination
+      nzShowSizeChanger
+      nzSize="small"
+      [nzData]="commission"
+      [nzShowTotal]="rangeTemplate"
+    >
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Broker Name</th>
+          <th>Date</th>
+          <th>Total Sales</th>
+          <th>Commission Percentage</th>
+          <th>Commission Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of salesTable.data; let index = index">
+          <td>{{ index + 1 }}</td>
+          <td>{{ data.brokerName }}</td>
+          <td>{{ data.calcDate | date: "yyyy-MM-dd" }}</td>
+          <td>{{ data.totalSales }}</td>
+          <td>{{ data.calcPercentage }}</td>
+          <td>{{ data.calcAmount }}</td>
+          <!-- <td>
           <a
             [routerLink]="['/summary/edit', data.id]"
             nz-icon
@@ -54,22 +54,35 @@
             (nzOnConfirm)="delData(data.id)"
           ></a>
         </td> -->
-      </tr>
-    </tbody>
-    <button nz-button nzType="primary" (click)="onSubmit()">Submit</button>
-  </nz-table>
-  <div *ngIf="!hideTable">
-    From: <input type="date" [(ngModel)]="fromDate" /> To:<input
-      type="date"
-      [(ngModel)]="toDate"
-    />
-    <button nz-button nzType="primary" (click)="loadData()">Calculate</button>
+        </tr>
+      </tbody>
+    </nz-table>
+    <div nz-row nzJustify="end">
+      <button nz-button nzType="primary" (click)="onSubmit()">Submit</button>
+    </div>
   </div>
 </nz-card>
 
 <ng-template #extraTemplate>
   <div nz-row>
     <div nz-col>
+      <!-- From: <input type="date" [(ngModel)]="fromDate" /> To:<input
+      type="date"
+      [(ngModel)]="toDate"
+    /> -->
+      <nz-range-picker
+        [(ngModel)]="date"
+        (ngModelChange)="onChange($event)"
+      ></nz-range-picker>
+
+      <button nz-button nzType="primary" class="lm" (click)="loadData()">
+        Calculate
+      </button>
+      <!-- {{
+        from.getFullYear() + "-" + (from.getMonth() + 1) + "-" + from.getDate()
+      }} -->
+    </div>
+    <!-- <div nz-col>
       <nz-input-group [nzSuffix]="suffixIconSearch">
         <input
           [(ngModel)]="searchValue"
@@ -81,7 +94,7 @@
       <ng-template #suffixIconSearch>
         <i nz-icon nzType="search"></i>
       </ng-template>
-    </div>
+    </div> -->
     <!-- <button
       nz-col
       nz-button
