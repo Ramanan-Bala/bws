@@ -20,6 +20,7 @@ import { Sales, Broker } from '../_models';
 export class SalesSummaryEditComponent implements OnInit {
   id = undefined;
   title: string;
+  dateFormat = 'yyyy-MM-dd';
   validateForm!: FormGroup;
   submitted = false;
   selectedValue = null;
@@ -48,6 +49,7 @@ export class SalesSummaryEditComponent implements OnInit {
       this.client
         .get<Sales>('https://localhost:5001/SalesSummary/' + this.id)
         .subscribe((res) => {
+          console.log(res.billDate);
           this.f.brokerId.setValue(res.brokerId);
           this.f.billNumber.setValue(res.billNumber);
           this.f.billDate.setValue(res.billDate);
@@ -55,6 +57,10 @@ export class SalesSummaryEditComponent implements OnInit {
           this.f.billAmount.setValue(res.billAmount);
         });
     }
+  }
+
+  onChange(result: Date): void {
+    // console.log(result.getUTCDate());
   }
 
   // compareFun(b1: Broker | string, b2: Broker): boolean {
@@ -103,6 +109,8 @@ export class SalesSummaryEditComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
+    console.log(this.f.billDate.value);
+
     if (this.validateForm.invalid) {
       return;
     } else {
@@ -115,7 +123,7 @@ export class SalesSummaryEditComponent implements OnInit {
           billQuantity: this.f.billQuantity.value,
           billAmount: this.f.billAmount.value,
         };
-        console.log('ADD', data.brokerId);
+        // console.log('ADD', data.brokerId);
         this.client
           .post('https://localhost:5001/SalesSummary', data)
           .subscribe((_) => {
@@ -131,7 +139,7 @@ export class SalesSummaryEditComponent implements OnInit {
           billQuantity: this.f.billQuantity.value,
           billAmount: this.f.billAmount.value,
         };
-        console.log('EDIT', data.brokerId);
+        // console.log('EDIT', data.brokerId);
         this.client
           .put('https://localhost:5001/SalesSummary/' + this.id, data)
           .subscribe((_) => {

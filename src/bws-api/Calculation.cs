@@ -5,9 +5,12 @@ namespace bws_api
     public class Calculation
     {
         public int Id { get; set; }
-        public string Calcfield { get; set; }
-        public DateTime CalcDate { get; set; }
-        public decimal CalcAmount { get; set; }
         public int BrokerId { get; set; }
+        public string BrokerName { get; set; }
+        public DateTime CalcDate { get; set; }
+        public int TotalSales { get; set; }
+        public float CalcPercentage { get; set; }
+        public decimal CalcAmount { get; set; }
+        public string CalcField { get; set; }
     }
 }

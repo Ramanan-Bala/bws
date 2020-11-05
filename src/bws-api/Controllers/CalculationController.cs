@@ -1,24 +1,32 @@
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using Dapper;
+using System;
+using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace bws_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-
     public class CalculationController : ControllerBase
     {
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(string calcField, string from, string to)
         {
             using (var con = Connect())
             {
-                var Calculate = con.Query<Calc>("select BrokerId, BillDate, c.ConfigField, TotalSales * (c.ConfigPercentage/100) CommnAmount" +
-                " from(select ss.BrokerId, ss.BillDate, sum(ss.BillAmount) TotalSales from sales_summary ss group by ss.BrokerId, ss.BillDate) ss" +
-                " inner join config c on ss.TotalSales between c.FromAmount and c.ToAmount" +
-                " where c.ConfigField = 'COMMN'" +
-                " and ss.BillDate between '2020-10-01' and '2020-10-03'");
+                var Calculate = con.Query<Calculation>(
+                    "SELECT BrokerId, BrokerName, BillDate CalcDate, TotalSales, " +
+                    "c.ConfigPercentage CalcPercentage, TotalSales * (c.ConfigPercentage/100) CalcAmount " +
+                    "FROM " +
+                    "(SELECT ss.BrokerId, b.BrokerName, ss.BillDate, SUM(ss.BillAmount) TotalSales " +
+                    "FROM sales_summary ss " +
+                    "LEFT JOIN brokers b on ss.BrokerId = b.Id " +
+                    "GROUP BY ss.BrokerId, ss.BillDate) ss " +
+                    "INNER JOIN config c on ss.TotalSales BETWEEN c.FromAmount AND c.ToAmount " +
+                    "WHERE c.ConfigField = @calcField AND ss.BillDate BETWEEN @from AND @to " +
+                    "ORDER BY BrokerId, BillDate", new { calcField, from, to });
                 return Ok(Calculate);
             }
         }
@@ -33,17 +41,64 @@ namespace bws_api.Controllers
         //         return Ok(summary);
         //     }
         // }
-        // [HttpPost]
-        // public IActionResult Post(Calc calc)
-        // {
-        //     using (var con = Connect())
-        //     {
-        //         calc.Id = con.QuerySingle<int>("INSERT INTO brokers (BrokerName,AddressLine1,AddressLine2,City,ContactNumber)" +
-        //         "VALUES (@brokerName,@addressLine1,@addressLine2,@city,@contactNumber);SELECT last_insert_id()", broker);
-        //         // return CreatedAtAction(nameof(GetById), new { id = broker.Id }, broker);
-        //         return Ok();
-        //     }
-        // }
+
+        [HttpPost]
+        public IActionResult Post([FromQuery, Required] string calcField, [FromQuery, Required] DateTime from,
+            [FromQuery, Required] DateTime to, [FromBody] Calculation[] calculations)
+        {
+            using (var con = Connect())
+            {
+                // calc.Id = con.QuerySingle<int>("insert into calc (BrokerId,CalcDate,CalcField, CalcAmount)" +
+                //             " select BrokerId, BillDate CalcDate, c.ConfigField CalcField, TotalSales * (c.ConfigPercentage / 100) CalcAmount" +
+                //             " from(select ss.BrokerId, ss.BillDate, sum(ss.BillAmount) TotalSales from sales_summary ss group by ss.BrokerId, ss.BillDate) ss" +
+                //             " inner join config c on ss.TotalSales between c.FromAmount and c.ToAmount" +
+                //             " where c.ConfigField = 'COMMN'" +
+                //             " and ss.BillDate between '2020-10-01' and '2020-10-10'", calc);
+                // return CreatedAtAction(nameof(GetById), new { id = broker.Id }, broker);
+                var dbCalculations = con.Query<Calculation>(
+                    "UPDATE Calc SET Changed=0 WHERE CalcField=@calcField AND CalcDate BETWEEN @from AND @to; " +
+                    "SELECT Id, CalcDate, BrokerId, TotalSales, CalcPercentage, CalcAmount " +
+                    "FROM Calc c " +
+                    "WHERE c.CalcField=@calcField AND c.CalcDate BETWEEN @from AND @to",
+                    new { calcField, from, to }).ToList();
+
+                foreach (var calc in calculations)
+                {
+                    int records = con.ExecuteScalar<int>("SELECT COUNT(*) FROM Calc " +
+                    "WHERE CalcField=@calcField " +
+                    "AND CalcDate=@calcDate AND BrokerId=@brokerId",
+                    new
+                    {
+                        calcField,
+                        calc.CalcDate,
+                        calc.BrokerId
+                    });
+
+                    if (records == 0)
+                    {
+                        // insert
+                        con.Execute("INSERT INTO Calc(CalcField, CalcDate, BrokerId, CalcAmount, " +
+                            "TotalSales, CalcPercentage, Changed) " +
+                            "VALUES(@calcField, @calcDate, @brokerId, @calcAmount, @totalSales, @calcPercentage, 1)",
+                            new { calcField, calc.CalcDate, calc.BrokerId, calc.CalcAmount, calc.TotalSales, calc.CalcPercentage });
+                    }
+                    else if (records > 0)
+                    {
+                        // update
+                        con.Execute("UPDATE Calc SET CalcAmount=@calcAmount, TotalSales=@totalSales, " +
+                            "CalcPercentage=@calcPercentage, Changed=1 " +
+                            "WHERE CalcField=@calcField AND CalcDate=@calcDate AND BrokerId=@brokerId",
+                            new { calcField, calc.CalcDate, calc.BrokerId, calc.CalcAmount, calc.TotalSales, calc.CalcPercentage });
+                    }
+                }
+                // delete
+                con.Execute("DELETE FROM Calc WHERE CalcField=@calcField AND Changed=0 AND CalcDate BETWEEN @from AND @to",
+                    new { calcField, from, to });
+            }
+
+            return Ok();
+        }
+
 
         // [HttpDelete("{date1},{date2}")]
         // public IActionResult Delete(string date1, string date2)
@@ -66,5 +121,5 @@ namespace bws_api.Controllers
             con.Open();
             return con;
         }
-    };
+    }
 }

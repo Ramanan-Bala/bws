@@ -1,32 +1,37 @@
-<nz-card nzTitle="Wages Report" class="tm" [nzExtra]="extraTemplate">
+<nz-card nzTitle="Payment" [nzExtra]="extraTemplate" class="tm">
   <nz-table
-    #wagesTable
+    [nzLoading]="loading"
+    [nzPageSize]="10"
+    [nzPageSizeOptions]="[5, 10, 20]"
+    #paymentTable
     nzShowPagination
     nzShowSizeChanger
     nzSize="small"
-    [nzData]="wagesReport"
     [nzShowTotal]="rangeTemplate"
+    [nzData]="payment"
   >
     <thead>
       <tr>
         <th>S.No</th>
         <th>Broker Name</th>
-        <th>Bill Date</th>
-        <th>Config Method</th>
-        <th>Commission Amount</th>
+        <th>Address Line 1</th>
+        <th>Address Line 2</th>
+        <th>City</th>
+        <th>Mobile</th>
         <th>Action</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of wagesTable.data; let index = index">
+      <tr *ngFor="let data of paymentTable.data; let index = index">
         <td>{{ index + 1 }}</td>
         <td>{{ data.brokerName }}</td>
-        <td>{{ data.calcDate }}</td>
-        <td>{{ data.calcField }}</td>
-        <td>{{ data.calcAmount }}</td>
+        <td>{{ data.addressLine1 }}</td>
+        <td>{{ data.addressLine2 }}</td>
+        <td>{{ data.city }}</td>
+        <td>{{ data.contactNumber }}</td>
         <td>
           <a
-            [routerLink]="['/calculation/edit', data.id]"
+            [routerLink]="['/brokers/edit', data.id]"
             nz-icon
             [nzType]="'edit'"
             [nzTheme]="'twotone'"
@@ -53,38 +58,22 @@
     </tbody>
   </nz-table>
 </nz-card>
-
 <ng-template #extraTemplate>
   <div nz-row>
-    <div nz-col>
-      <nz-input-group [nzSuffix]="suffixIconSearch">
-        <input
-          [(ngModel)]="searchValue"
-          type="text"
-          nz-input
-          placeholder="Search table"
-        />
-      </nz-input-group>
-      <ng-template #suffixIconSearch>
-        <i nz-icon nzType="search"></i>
-      </ng-template>
-    </div>
     <button
       nz-col
       nz-button
       nzType="primary"
-      [routerLink]="['/calculation/add']"
+      [routerLink]="['/brokers/add']"
       class="lm"
     >
       Add
     </button>
   </div>
 </ng-template>
-
 <ng-template #iconTpl>
   <i nz-icon nzType="question-circle-o" style="color: red"></i>
 </ng-template>
-
 <ng-template #rangeTemplate let-range="range" let-total>
   {{ range[0] }}-{{ range[1] }} of {{ total }} items
 </ng-template>

@@ -1,6 +1,6 @@
 <nz-layout>
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-    <div class="logo"></div>
+    <div class="logo">BWS</div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
       <li nz-menu-item routerLink="/brokers">
         <i nz-icon nzType="user"></i>
@@ -10,34 +10,13 @@
         <i nz-icon nzType="area-chart" nzTheme="outline"></i>
         <span>Sales Summary</span>
       </li>
-      <li nz-menu-item routerLink="/calculation">
+      <li nz-menu-item routerLink="/commission">
         <i nz-icon nzType="area-chart" nzTheme="outline"></i>
-        <span>Wages Report</span>
+        <span>Commission</span>
       </li>
-      <li
-        nz-submenu
-        [(nzOpen)]="openMap.sub1"
-        (nzOpenChange)="openHandler('sub1')"
-        nzTitle="User"
-        nzIcon="user"
-      >
-        <ul>
-          <li nz-menu-item>Tom</li>
-          <li nz-menu-item>Bill</li>
-          <li nz-menu-item>Alex</li>
-        </ul>
-      </li>
-      <li
-        nz-submenu
-        [(nzOpen)]="openMap.sub2"
-        (nzOpenChange)="openHandler('sub2')"
-        nzTitle="Team"
-        nzIcon="team"
-      >
-        <ul>
-          <li nz-menu-item>Team 1</li>
-          <li nz-menu-item>Team 2</li>
-        </ul>
+      <li nz-menu-item routerLink="/payment">
+        <i nz-icon nzType="area-chart" nzTheme="outline"></i>
+        <span>Payment</span>
       </li>
     </ul>
   </nz-sider>

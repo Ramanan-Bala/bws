@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using Dapper;
+using System;
+using Microsoft.Extensions.Logging;
 
 namespace bws_api.Controllers
 {
@@ -9,6 +11,13 @@ namespace bws_api.Controllers
 
     public class SalesSummaryController : ControllerBase
     {
+        private readonly ILogger<SalesSummaryController> _logger;
+
+        public SalesSummaryController(ILogger<SalesSummaryController> logger)
+        {
+            _logger = logger;
+        }
+
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -33,6 +42,7 @@ namespace bws_api.Controllers
         [HttpPost]
         public IActionResult Post(SalesSummary summary)
         {
+            _logger.LogInformation("Bill date: " + summary.BillDate);
             using (var con = Connect())
             {
                 summary.Id = con.QuerySingle<int>("INSERT INTO sales_summary (BrokerId,BillNumber,BillDate,BillQuantity,BillAmount)" +

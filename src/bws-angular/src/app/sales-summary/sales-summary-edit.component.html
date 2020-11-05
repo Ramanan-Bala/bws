@@ -66,9 +66,12 @@
         [nzXs]="24"
         nzErrorTip="The input is not valid Bill Date!"
       >
+        <!-- <input nz-input formControlName="billDate" id="billDate" /> -->
         <nz-date-picker
+          nzMode="date"
           formControlName="billDate"
           id="billDate"
+          (ngModelChange)="onChange($event)"
         ></nz-date-picker>
       </nz-form-control>
     </nz-form-item>

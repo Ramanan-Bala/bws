@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'brokerSearch',
 })
 export class BrokerSearchPipe implements PipeTransform {
-  transform(broker: Broker[], searchValue: string): any {
+  transform(broker: Broker[], sales: Sales[], searchValue: string): any {
     if (!broker || !searchValue) {
       return broker;
     }

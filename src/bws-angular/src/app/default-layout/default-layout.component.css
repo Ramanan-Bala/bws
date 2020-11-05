@@ -12,8 +12,10 @@
 
 .logo {
   height: 32px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 14px;
+  color: #fff;
+  font-size: 30px;
+  margin-bottom: 16px;
+  margin-left: 30%;
 }
 
 nz-layout {

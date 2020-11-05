@@ -1,29 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Geetha Project\\bws\\src\\bws-api\\bws-api.csproj": {}
+    "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj": {}
   },
   "projects": {
-    "D:\\Geetha Project\\bws\\src\\bws-api\\bws-api.csproj": {
+    "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Geetha Project\\bws\\src\\bws-api\\bws-api.csproj",
+        "projectUniqueName": "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj",
         "projectName": "bws-api",
-        "projectPath": "D:\\Geetha Project\\bws\\src\\bws-api\\bws-api.csproj",
-        "packagesPath": "C:\\Users\\Mohan\\.nuget\\packages\\",
-        "outputPath": "D:\\Geetha Project\\bws\\src\\bws-api\\obj\\",
+        "projectPath": "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj",
+        "packagesPath": "C:\\Users\\seeth\\.nuget\\packages\\",
+        "outputPath": "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Mohan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\seeth\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
+            "targetAlias": "net5.0",
             "projectReferences": {}
           }
         },
@@ -35,6 +38,7 @@
       },
       "frameworks": {
         "net5.0": {
+          "targetAlias": "net5.0",
           "dependencies": {
             "MySql.Data": {
               "target": "Package",
@@ -53,12 +57,25 @@
               "version": "[2.0.35, )"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win7-x86": {
-          "#import": []
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100-rc.2.20479.15\\RuntimeIdentifierGraph.json"
         }
       }
     }

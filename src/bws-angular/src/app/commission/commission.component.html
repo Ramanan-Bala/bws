@@ -1,0 +1,103 @@
+<nz-card nzTitle="Commission" class="tm" [nzExtra]="extraTemplate">
+  <nz-table
+    *ngIf="hideTable"
+    [nzLoading]="loading"
+    [nzPageSize]="10"
+    [nzPageSizeOptions]="[5, 10, 20]"
+    #salesTable
+    nzShowPagination
+    nzShowSizeChanger
+    nzSize="small"
+    [nzData]="commission"
+    [nzShowTotal]="rangeTemplate"
+  >
+    <thead>
+      <tr>
+        <th>S.No</th>
+        <th>Broker Name</th>
+        <th>Date</th>
+        <th>Total Sales</th>
+        <th>Commission Percentage</th>
+        <th>Commission Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of salesTable.data; let index = index">
+        <td>{{ index + 1 }}</td>
+        <td>{{ data.brokerName }}</td>
+        <td>{{ data.calcDate }}</td>
+        <td>{{ data.totalSales }}</td>
+        <td>{{ data.calcPercentage }}</td>
+        <td>{{ data.calcAmount }}</td>
+        <!-- <td>
+          <a
+            [routerLink]="['/summary/edit', data.id]"
+            nz-icon
+            [nzType]="'edit'"
+            [nzTheme]="'twotone'"
+            nz-tooltip
+            nzTooltipTitle="Edit"
+          ></a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a
+            nz-tooltip
+            nzTooltipTitle="Delete"
+            nz-icon
+            [nzType]="'delete'"
+            [nzTheme]="'twotone'"
+            [nzTwotoneColor]="'#eb2f96'"
+            nz-popconfirm
+            nzPopconfirmTitle="Are you sure?"
+            [nzIcon]="iconTpl"
+            nzOkText="ok"
+            nzCancelText="cancel"
+            (nzOnConfirm)="delData(data.id)"
+          ></a>
+        </td> -->
+      </tr>
+    </tbody>
+    <button nz-button nzType="primary" (click)="onSubmit()">Submit</button>
+  </nz-table>
+  <div *ngIf="!hideTable">
+    From: <input type="date" [(ngModel)]="fromDate" /> To:<input
+      type="date"
+      [(ngModel)]="toDate"
+    />
+    <button nz-button nzType="primary" (click)="loadData()">Calculate</button>
+  </div>
+</nz-card>
+
+<ng-template #extraTemplate>
+  <div nz-row>
+    <div nz-col>
+      <nz-input-group [nzSuffix]="suffixIconSearch">
+        <input
+          [(ngModel)]="searchValue"
+          type="text"
+          nz-input
+          placeholder="Search table"
+        />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <i nz-icon nzType="search"></i>
+      </ng-template>
+    </div>
+    <!-- <button
+      nz-col
+      nz-button
+      nzType="primary"
+      [routerLink]="['/summary/add']"
+      class="lm"
+    >
+      Add
+    </button> -->
+  </div>
+</ng-template>
+
+<ng-template #iconTpl>
+  <i nz-icon nzType="question-circle-o" style="color: red"></i>
+</ng-template>
+
+<ng-template #rangeTemplate let-range="range" let-total>
+  {{ range[0] }}-{{ range[1] }} of {{ total }} items
+</ng-template>
