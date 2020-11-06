@@ -34,7 +34,7 @@
         <td>{{ data.contactNumber }}</td> -->
         <td>
           <a
-            [routerLink]="['/brokers/edit', data.id]"
+            [routerLink]="['/payment/edit', data.id]"
             nz-icon
             [nzType]="'edit'"
             [nzTheme]="'twotone'"
@@ -62,44 +62,52 @@
   </nz-table>
 </nz-card>
 <ng-template #extraTemplate>
-  <nz-select
-    nzShowSearch
-    nzAllowClear
-    nzPlaceHolder="Choose Broker"
-    [(ngModel)]="brokerId"
-  >
-    <nz-option
-      *ngFor="let broker of brokers"
-      [nzLabel]="broker.brokerName"
-      [nzValue]="broker.id"
-    ></nz-option>
-  </nz-select>
-  <nz-select
-    nzShowSearch
-    nzAllowClear
-    nzPlaceHolder="Choose Method"
-    [(ngModel)]="paymentField"
-  >
-    <nz-option nzLabel="Commission" nzValue="COMMN"></nz-option>
-    <nz-option nzLabel="Bonus" nzValue="BONUS"></nz-option>
-  </nz-select>
-  <nz-range-picker
-    [(ngModel)]="date"
-    (ngModelChange)="onChange($event)"
-  ></nz-range-picker>
-  <button nz-button nzType="primary" class="lm" (click)="loadData()">
-    Submit
-  </button>
-
-  <button
-    nz-col
-    nz-button
-    nzType="primary"
-    [routerLink]="['/payment/add']"
-    class="lm"
-  >
-    Add
-  </button>
+  <form nz-form nz-row [formGroup]="validateForm">
+    <nz-form-item class="mw">
+      <nz-form-control nzErrorTip="Broker Name required!">
+        <nz-select
+          class="mw"
+          formControlName="brokerId"
+          nzPlaceHolder="Choose Broker"
+        >
+          <nz-option
+            *ngFor="let broker of brokers"
+            [nzLabel]="broker.brokerName"
+            [nzValue]="broker.id"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="lm mw">
+      <nz-form-control nzErrorTip="Method required!">
+        <nz-select nzPlaceHolder="Choose Method" formControlName="field">
+          <nz-option nzLabel="Commission" nzValue="COMMN"></nz-option>
+          <nz-option nzLabel="Bonus" nzValue="BONUS"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item class="lm">
+      <nz-form-control nzErrorTip="Date required!">
+        <nz-range-picker
+          formControlName="rangePicker"
+          (ngModelChange)="onChange($event)"
+        ></nz-range-picker>
+        <button nz-button nzType="primary" class="lm" (click)="loadData()">
+          Submit
+        </button>
+        <button
+          nz-col
+          nz-button
+          nzType="primary"
+          [routerLink]="['/payment/add']"
+          class="lm"
+        >
+          <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+          Add
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
 </ng-template>
 <ng-template #iconTpl>
   <i nz-icon nzType="question-circle-o" style="color: red"></i>

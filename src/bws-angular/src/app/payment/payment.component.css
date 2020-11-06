@@ -1,4 +1,6 @@
-nz-select {
-  margin: 0 8px 10px 0;
-  width: auto;
+[nz-form] {
+  margin-bottom: -23px;
+}
+.mw {
+  width: 150px;
 }

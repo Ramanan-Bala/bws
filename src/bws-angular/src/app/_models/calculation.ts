@@ -1,4 +1,4 @@
-export class Commission {
+export class Calculation {
   brokerId?: number;
   calcDate: string;
   calcAmount: number;

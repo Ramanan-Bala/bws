@@ -10,19 +10,10 @@ namespace bws_api.Controllers
 
     public class PaymentController : ControllerBase
     {
-        // [HttpGet]
-        // public IActionResult GetAll()
-        // {
-        //     using (var con = Connect())
-        //     {
-        //         var payment = con.Query<Broker>("SELECT * FROM payment");
-        //         return Ok(payment);
-        //     }
-        // }
         [HttpGet]
         public IActionResult GetAll(int id, string paymentField, DateTime from, DateTime to)
         {
-            string query = "SELECT b.BrokerName ,p.PaymentDate ,p.PaymentAmount " +
+            string query = "SELECT b.BrokerName ,p.PaymentDate ,p.PaymentAmount,p.BrokerID,p.Id " +
                     "FROM payment p " +
                     "LEFT JOIN brokers b on p.BrokerId = b.Id " +
                     "WHERE PaymentField = @paymentField AND PaymentDate BETWEEN @from AND @to ";
@@ -38,46 +29,71 @@ namespace bws_api.Controllers
             }
         }
 
-        // [HttpPost]
-        // public IActionResult Post(Broker broker)
-        // {
-        //     using (var con = Connect())
-        //     {
-        //         broker.Id = con.QuerySingle<int>("INSERT INTO brokers (BrokerName,AddressLine1,AddressLine2,City,ContactNumber)" +
-        //         "VALUES (@brokerName,@addressLine1,@addressLine2,@city,@contactNumber);SELECT last_insert_id()", broker);
-        //         return CreatedAtAction(nameof(GetById), new { id = broker.Id }, broker);
-        //     }
-        // }
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            using (var con = Connect())
+            {
+                var payment = con.QuerySingle<Payment>("SELECT * FROM payment where Id=@id", new { id });
+                return Ok(payment);
+            }
+        }
 
-        // [HttpPut("{id}")]
-        // public IActionResult Put(int id, Broker broker)
-        // {
-        //     if (id != broker.Id)
-        //     {
-        //         return BadRequest("Id MisMatch");
-        //     }
-        //     using (var con = Connect())
-        //     {
-        //         con.Execute("UPDATE brokers SET BrokerName=@brokerName,AddressLine1=@addressLine1,AddressLine2=@addressLine2,City=@city,ContactNumber=@contactNumber" +
-        //         " WHERE Id=@id", broker);
-        //         return Ok(broker);
-        //     }
-        // }
+        [HttpPost]
+        public IActionResult Post(Payment payment)
+        {
+            using (var con = Connect())
+            {
+                payment.Id = con.QuerySingle<int>("INSERT INTO payment (PaymentField,PaymentDate,BrokerId,PaymentAmount)" +
+                "VALUES (@paymentField,@paymentDate,@brokerId,@paymentAmount);SELECT last_insert_id()", payment);
+                return CreatedAtAction(nameof(GetById), new { id = payment.Id }, payment);
+            }
+        }
 
-        // [HttpDelete("{id}")]
-        // public IActionResult Delete(int id)
-        // {
-        //     using (var con = Connect())
-        //     {
-        //         var affectedCount = con.Execute("delete from brokers where Id = @id", new { id });
-        //         if (affectedCount == 0)
-        //         {
-        //             return NotFound("Broker id not found");
-        //         }
-        //         return NoContent();
-        //     }
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Payment payment)
+        {
+            if (id != payment.Id)
+            {
+                return BadRequest("Id MisMatch");
+            }
+            using (var con = Connect())
+            {
+                con.Execute("UPDATE payment SET PaymentField=@paymentField,PaymentDate=@paymentDate, BrokerId=@brokerId,PaymentAmount=@paymentAmount" +
+                " WHERE Id=@id", payment);
+                return Ok(payment);
+            }
+        }
 
-        // }
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            using (var con = Connect())
+            {
+                var affectedCount = con.Execute("delete from payment where Id = @id", new { id });
+                if (affectedCount == 0)
+                {
+                    return NotFound("payment id not found");
+                }
+                return NoContent();
+            }
+
+        }
+
+        [HttpGet("balance/{brokerId}/{field}")]
+        public IActionResult GetBalance(int brokerId, string field)
+        {
+            field = field.ToUpper();
+            using (var con = Connect())
+            {
+                var balance = con.ExecuteScalar<decimal>("select sum(c.CalcAmount) - IFNULL(sum(p.PaymentAmount),0) ToBePaid " +
+                            "from calc c " +
+                            "left join payment p on c.BrokerId = p.BrokerId and c.CalcField = p.PaymentField " +
+                            "where c.CalcField = @field and c.BrokerId = @brokerId " +
+                            "group by c.BrokerId", new { brokerId, field });
+                return Ok(new { brokerId = brokerId, Field = field, Balance = balance });
+            }
+        }
 
         private MySqlConnection Connect()
         {

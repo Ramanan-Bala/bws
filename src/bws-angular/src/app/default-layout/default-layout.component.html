@@ -7,15 +7,19 @@
         <span>Broker</span>
       </li>
       <li nz-menu-item routerLink="/summary">
-        <i nz-icon nzType="area-chart" nzTheme="outline"></i>
+        <i nz-icon nzType="stock" nzTheme="outline"></i>
         <span>Sales Summary</span>
       </li>
-      <li nz-menu-item routerLink="/commission">
+      <li nz-menu-item [routerLink]="['/calculation/COMMN']">
         <i nz-icon nzType="area-chart" nzTheme="outline"></i>
         <span>Commission</span>
       </li>
-      <li nz-menu-item routerLink="/payment">
+      <li nz-menu-item [routerLink]="['/calculation/BONUS']">
         <i nz-icon nzType="area-chart" nzTheme="outline"></i>
+        <span>Bonus</span>
+      </li>
+      <li nz-menu-item routerLink="/payment">
+        <i nz-icon nzType="dollar" nzTheme="outline"></i>
         <span>Payment</span>
       </li>
     </ul>

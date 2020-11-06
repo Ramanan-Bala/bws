@@ -1,4 +1,4 @@
-<nz-card nzTitle="Commission" class="tm" [nzExtra]="extraTemplate">
+<nz-card nzTitle="{{ title }}" class="tm" [nzExtra]="extraTemplate">
   <div *ngIf="hideTable">
     <nz-table
       [nzLoading]="loading"
@@ -8,7 +8,7 @@
       nzShowPagination
       nzShowSizeChanger
       nzSize="small"
-      [nzData]="commission"
+      [nzData]="calculation"
       [nzShowTotal]="rangeTemplate"
     >
       <thead>
@@ -17,8 +17,8 @@
           <th>Broker Name</th>
           <th>Date</th>
           <th>Total Sales</th>
-          <th>Commission Percentage</th>
-          <th>Commission Amount</th>
+          <th>{{ title }} Percentage</th>
+          <th>{{ title }} Amount</th>
         </tr>
       </thead>
       <tbody>
@@ -30,30 +30,30 @@
           <td>{{ data.calcPercentage }}</td>
           <td>{{ data.calcAmount }}</td>
           <!-- <td>
-          <a
-            [routerLink]="['/summary/edit', data.id]"
-            nz-icon
-            [nzType]="'edit'"
-            [nzTheme]="'twotone'"
-            nz-tooltip
-            nzTooltipTitle="Edit"
-          ></a>
-          <nz-divider nzType="vertical"></nz-divider>
-          <a
-            nz-tooltip
-            nzTooltipTitle="Delete"
-            nz-icon
-            [nzType]="'delete'"
-            [nzTheme]="'twotone'"
-            [nzTwotoneColor]="'#eb2f96'"
-            nz-popconfirm
-            nzPopconfirmTitle="Are you sure?"
-            [nzIcon]="iconTpl"
-            nzOkText="ok"
-            nzCancelText="cancel"
-            (nzOnConfirm)="delData(data.id)"
-          ></a>
-        </td> -->
+            <a
+              [routerLink]="['/calculation/edit', data.brokerId]"
+              nz-icon
+              [nzType]="'edit'"
+              [nzTheme]="'twotone'"
+              nz-tooltip
+              nzTooltipTitle="Edit"
+            ></a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a
+              nz-tooltip
+              nzTooltipTitle="Delete"
+              nz-icon
+              [nzType]="'delete'"
+              [nzTheme]="'twotone'"
+              [nzTwotoneColor]="'#eb2f96'"
+              nz-popconfirm
+              nzPopconfirmTitle="Are you sure?"
+              [nzIcon]="iconTpl"
+              nzOkText="ok"
+              nzCancelText="cancel"
+              (nzOnConfirm)="delData(data.id)"
+            ></a>
+          </td> -->
         </tr>
       </tbody>
     </nz-table>
@@ -61,26 +61,37 @@
       <button nz-button nzType="primary" (click)="onSubmit()">Submit</button>
     </div>
   </div>
+  <nz-alert
+    *ngIf="alert"
+    nzType="info"
+    nzMessage="Informational Notes"
+    nzDescription="Calculated {{ title }} to Broker you can pay the broker"
+    nzShowIcon
+  ></nz-alert>
 </nz-card>
 
 <ng-template #extraTemplate>
   <div nz-row>
     <div nz-col>
-      <!-- From: <input type="date" [(ngModel)]="fromDate" /> To:<input
-      type="date"
-      [(ngModel)]="toDate"
-    /> -->
-      <nz-range-picker
+      <!-- <nz-range-picker
         [(ngModel)]="date"
         (ngModelChange)="onChange($event)"
       ></nz-range-picker>
 
       <button nz-button nzType="primary" class="lm" (click)="loadData()">
         Calculate
-      </button>
-      <!-- {{
-        from.getFullYear() + "-" + (from.getMonth() + 1) + "-" + from.getDate()
-      }} -->
+      </button> -->
+      <form nz-form [formGroup]="validateForm" (ngSubmit)="loadData()">
+        <nz-form-item>
+          <nz-form-control nzErrorTip="Date required to calculate!">
+            <nz-range-picker
+              formControlName="rangePicker"
+              (ngModelChange)="onChange($event)"
+            ></nz-range-picker>
+            <button nz-button nzType="primary" class="lm">Calculate</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
     </div>
     <!-- <div nz-col>
       <nz-input-group [nzSuffix]="suffixIconSearch">

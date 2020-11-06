@@ -1,6 +1,6 @@
 import { PaymentEditComponent } from './payment/payment-edit.component';
 import { PaymentComponent } from './payment/payment.component';
-import { CommissionComponent } from './commission/commission.component';
+import { CalculationComponent } from './calculation/calculation.component';
 import { SalesSummaryComponent } from './sales-summary/sales-summary.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -21,7 +21,19 @@ const routes: Routes = [
       { path: 'summary', component: SalesSummaryComponent },
       { path: 'summary/add', component: SalesSummaryEditComponent },
       { path: 'summary/edit/:id', component: SalesSummaryEditComponent },
-      { path: 'commission', component: CommissionComponent },
+      {
+        path: 'calculation',
+        children: [
+          {
+            path: 'COMMN',
+            component: CalculationComponent,
+          },
+          {
+            path: 'BONUS',
+            component: CalculationComponent,
+          },
+        ],
+      },
       { path: 'payment', component: PaymentComponent },
       { path: 'payment/add', component: PaymentEditComponent },
       { path: 'payment/edit/:id', component: PaymentEditComponent },

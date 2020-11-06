@@ -1,17 +1,5 @@
 <nz-card nzTitle="{{ title }}" class="card-center">
   <form nz-form [formGroup]="validateForm">
-    <!-- <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="id"
-        >Broker Id</nz-form-label
-      >
-      <nz-form-control
-        [nzSm]="14"
-        [nzXs]="24"
-        nzErrorTip="The input is not valid Broker Id!"
-      >
-        <input nz-input formControlName="id" id="id" />
-      </nz-form-control>
-    </nz-form-item> -->
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="brokerId"
         >Broker Name</nz-form-label
@@ -22,10 +10,11 @@
         nzErrorTip="The input is not valid Broker Name!"
       >
         <nz-select
+          [nzDisabled]="disabled ? true : false"
           nzShowSearch
-          nzAllowClear
           nzPlaceHolder="Choose Broker"
           formControlName="brokerId"
+          (ngModelChange)="bId($event)"
         >
           <nz-option
             *ngFor="let broker of brokers"
@@ -33,82 +22,80 @@
             [nzValue]="broker.id"
           ></nz-option>
         </nz-select>
-        <!-- <nz-select nzShowSearch nzAllowClear formControlName="brokerId">
-          <nz-option
-            *ngFor="let broker of brokers"
-            [nzLabel]="broker.brokerName"
-            [nzValue]="broker.id"
-          ></nz-option>
-        </nz-select> -->
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="billNumber"
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="paymentField"
         >Payment Field</nz-form-label
       >
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
-        nzErrorTip="The input is not valid Bill Number!"
+        nzErrorTip="The input is not valid Payment Field!"
       >
-        <input
-          autocomplete="off"
-          nz-input
-          formControlName="billNumber"
-          id="billNumber"
-        />
+        <nz-select
+          [nzDisabled]="disabled ? true : false"
+          nzShowSearch
+          nzPlaceHolder="Choose Method"
+          formControlName="paymentField"
+          (ngModelChange)="pField($event)"
+        >
+          <nz-option nzLabel="Commission" nzValue="COMMN"></nz-option>
+          <nz-option nzLabel="Bonus" nzValue="BONUS"></nz-option>
+        </nz-select>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="billDate"
-        >Bill Date</nz-form-label
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="paymentDate"
+        >Payment Date</nz-form-label
       >
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
-        nzErrorTip="The input is not valid Bill Date!"
+        nzErrorTip="The input is not valid Payment Date!"
       >
-        <!-- <input nz-input formControlName="billDate" id="billDate" /> -->
         <nz-date-picker
           nzMode="date"
-          formControlName="billDate"
-          id="billDate"
-          (ngModelChange)="onChange($event)"
+          formControlName="paymentDate"
+          id="paymentDate"
         ></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="billQuantity"
-        >Bill Quantity</nz-form-label
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="paymentAmount"
+        >Payment Amount</nz-form-label
       >
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
-        nzErrorTip="The input is not valid Bill Quantity!"
+        nzErrorTip="The input is not valid Payment Amount!"
       >
         <input
           autocomplete="off"
           nz-input
-          formControlName="billQuantity"
-          id="billQuantity"
+          formControlName="paymentAmount"
+          id="paymentAmount"
         />
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="billAmount"
-        >Bill Amount</nz-form-label
-      >
-      <nz-form-control
-        [nzSm]="14"
-        [nzXs]="24"
-        nzErrorTip="The input is not valid Bill Amount!"
-      >
+    <nz-form-item nz-row>
+      <nz-form-label [nzSm]="6" [nzXs]="24">To Be Paid</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
         <input
-          autocomplete="off"
           nz-input
-          formControlName="billAmount"
-          id="billAmount"
+          style="width: 100px"
+          [disabled]="true"
+          value="{{ toBePaid }}"
         />
+        <button
+          *ngIf="disabled ? false : true"
+          nz-button
+          nzType="primary"
+          class="lm"
+          (click)="calculate()"
+        >
+          Calculate
+        </button>
       </nz-form-control>
     </nz-form-item>
 

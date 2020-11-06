@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { Broker, Payment } from '../_models';
+import { Broker, Payment, ToBePaid } from '../_models';
 import { toDateString } from '../_helpers';
 
 @Component({
@@ -20,10 +20,16 @@ import { toDateString } from '../_helpers';
 export class PaymentEditComponent implements OnInit {
   id = undefined;
   title: string;
-  dateFormat = 'yyyy-MM-dd';
+
+  brokerId: number;
+  paymentField: string;
+  toBePaid: number;
+
   validateForm!: FormGroup;
   submitted = false;
-  selectedValue = null;
+
+  disabled = true;
+
   brokers: Broker[] = [];
 
   constructor(
@@ -35,6 +41,10 @@ export class PaymentEditComponent implements OnInit {
   ) {
     this.id = this.route.snapshot.params.id;
 
+    if (this.id === undefined) {
+      this.disabled = false;
+    }
+
     this.client
       .get<Broker[]>('https://localhost:5001/broker')
       .subscribe((res) => {
@@ -43,9 +53,9 @@ export class PaymentEditComponent implements OnInit {
 
     // tslint:disable-next-line: triple-equals
     if (this.id == undefined) {
-      this.title = 'Add Summary';
+      this.title = 'Add payment';
     } else if (this.id >= 0) {
-      this.title = 'Edit Summary';
+      this.title = 'Edit payment';
       this.client
         .get<Payment>('https://localhost:5001/Payment/' + this.id)
         .subscribe((res) => {
@@ -53,20 +63,16 @@ export class PaymentEditComponent implements OnInit {
           this.f.paymentField.setValue(res.paymentField);
           this.f.paymentDate.setValue(res.paymentDate);
           this.f.paymentAmount.setValue(res.paymentAmount);
+          this.paymentField = res.paymentField;
+          this.brokerId = res.brokerId;
+          this.client
+            .get<ToBePaid>(
+              `https://localhost:5001/payment/balance/${this.brokerId}/${this.paymentField}`
+            )
+            .subscribe((res) => {
+              this.toBePaid = res.balance;
+            });
         });
-    }
-  }
-
-  onChange(result: Date): void {
-    // console.log(result.getUTCDate());
-  }
-
-  compareFun(b1: number | string, b2: number): boolean {
-    if (b1) {
-      // console.log('compare', b1, b2, typeof b1);
-      return b1 === b2; // typeof b1 === 'string' ? b1 === b2.brokerName : b1.id === b2.id;
-    } else {
-      return false;
     }
   }
 
@@ -80,13 +86,36 @@ export class PaymentEditComponent implements OnInit {
     });
   }
 
-  get f(): { [key: string]: AbstractControl } {
-    return this.validateForm.controls;
+  calculate(): void {
+    console.log(this.brokerId);
+    this.client
+      .get<ToBePaid>(
+        `https://localhost:5001/payment/balance/${this.brokerId}/${this.paymentField}`
+      )
+      .subscribe((res) => {
+        this.toBePaid = res.balance;
+      });
   }
 
-  updateDeptId(id: number): void {
-    this.brokers[id].id = id;
-    // console.log(id);
+  bId(result: number): void {
+    this.brokerId = result;
+  }
+
+  pField(result: string): void {
+    this.paymentField = result;
+  }
+
+  compareFun(b1: number | string, b2: number): boolean {
+    if (b1) {
+      // console.log('compare', b1, b2, typeof b1);
+      return b1 === b2; // typeof b1 === 'string' ? b1 === b2.brokerName : b1.id === b2.id;
+    } else {
+      return false;
+    }
+  }
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.validateForm.controls;
   }
 
   submitForm(): void {
@@ -113,30 +142,31 @@ export class PaymentEditComponent implements OnInit {
         };
         // console.log('ADD', data.brokerId);
         this.client
-          .post('https://localhost:5001/SalesSummary', data)
+          .post('https://localhost:5001/payment', data)
           .subscribe((_) => {
-            this.router.navigate(['/summary']);
-            this.message.create('success', `Summary Successfully Added`);
+            this.router.navigate(['/payment']);
+            this.message.create('success', `Payment Successfully Added`);
           });
       } else {
+        const date = toDateString(this.f.paymentDate.value);
         const data: Payment = {
           id: this.id,
           brokerId: this.f.brokerId.value,
           paymentField: this.f.paymentField.value,
-          paymentDate: toDateString(this.f.paymentDate.value),
+          paymentDate: date,
           paymentAmount: this.f.paymentAmount.value,
         };
         // console.log('EDIT', data.brokerId);
         this.client
           .put('https://localhost:5001/Payment/' + this.id, data)
           .subscribe((_) => {
-            this.router.navigate(['/summary']);
-            this.message.create('success', `Summary Successfully Edited`);
+            this.router.navigate(['/payment']);
+            this.message.create('success', `Payment Successfully Edited`);
           });
       }
     }
   }
   cancelForm(): void {
-    this.router.navigate(['/summary']);
+    this.router.navigate(['/payment']);
   }
 }
