@@ -69,6 +69,7 @@ export class PaymentEditComponent implements OnInit {
             .get<ToBePaid>(
               `https://localhost:5001/payment/balance/${this.brokerId}/${this.paymentField}`
             )
+            // tslint:disable-next-line: no-shadowed-variable
             .subscribe((res) => {
               this.toBePaid = res.balance;
             });
