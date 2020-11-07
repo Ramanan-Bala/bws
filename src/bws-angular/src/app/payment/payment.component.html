@@ -15,6 +15,7 @@
       <tr>
         <th>S.No</th>
         <th>Broker Name</th>
+        <!-- <th>Payment Method</th> -->
         <th>Payment Date</th>
         <th>Paid Amount</th>
         <!-- <th>Address Line 2</th>
@@ -27,6 +28,7 @@
       <tr *ngFor="let data of paymentTable.data; let index = index">
         <td>{{ index + 1 }}</td>
         <td>{{ data.brokerName }}</td>
+        <!-- <td>{{ data.paymentField }}</td> -->
         <td>{{ data.paymentDate | date: "yyyy-MM-dd" }}</td>
         <td>{{ data.paymentAmount }}</td>
         <!-- <td>{{ data.addressLine2 }}</td>
@@ -62,7 +64,7 @@
   </nz-table>
 </nz-card>
 <ng-template #extraTemplate>
-  <form nz-form nz-row [formGroup]="validateForm">
+  <form class="nz-row" [formGroup]="validateForm">
     <nz-form-item class="mw">
       <nz-form-control nzErrorTip="Broker Name required!">
         <nz-select
@@ -83,6 +85,7 @@
         <nz-select nzPlaceHolder="Choose Method" formControlName="field">
           <nz-option nzLabel="Commission" nzValue="COMMN"></nz-option>
           <nz-option nzLabel="Bonus" nzValue="BONUS"></nz-option>
+          <!-- <nz-option nzLabel="Both" nzValue="BOTH"></nz-option> -->
         </nz-select>
       </nz-form-control>
     </nz-form-item>

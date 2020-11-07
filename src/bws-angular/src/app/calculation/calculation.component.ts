@@ -90,10 +90,6 @@ export class CalculationComponent implements OnInit {
       .subscribe((_) => {
         this.hideTable = false;
         this.alert = true;
-        this.message.create(
-          'success',
-          `Calculation added. You can pay the Broker`
-        );
       });
   }
 

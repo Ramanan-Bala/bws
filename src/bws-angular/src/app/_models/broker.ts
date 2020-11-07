@@ -5,4 +5,5 @@ export interface Broker {
   addressLine2?: string;
   city?: string;
   contactNumber?: string;
+  note?: string;
 }

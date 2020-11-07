@@ -21,8 +21,8 @@ export class PaymentEditComponent implements OnInit {
   id = undefined;
   title: string;
 
-  brokerId: number;
-  paymentField: string;
+  brokerId: number = null;
+  paymentField: string = null;
   toBePaid: number;
 
   validateForm!: FormGroup;
@@ -40,6 +40,12 @@ export class PaymentEditComponent implements OnInit {
     private client: HttpClient
   ) {
     this.id = this.route.snapshot.params.id;
+    this.validateForm = this.fb.group({
+      brokerId: ['', [Validators.required]],
+      paymentField: ['', [Validators.required]],
+      paymentDate: ['', [Validators.required]],
+      paymentAmount: ['', [Validators.required]],
+    });
 
     if (this.id === undefined) {
       this.disabled = false;
@@ -52,8 +58,13 @@ export class PaymentEditComponent implements OnInit {
       });
 
     // tslint:disable-next-line: triple-equals
+  }
+
+  ngOnInit(): void {
+    // tslint:disable-next-line: typedef
     if (this.id == undefined) {
       this.title = 'Add payment';
+      this.f.paymentDate.setValue(toDateString(new Date()));
     } else if (this.id >= 0) {
       this.title = 'Edit payment';
       this.client
@@ -77,33 +88,42 @@ export class PaymentEditComponent implements OnInit {
     }
   }
 
-  // tslint:disable-next-line: typedef
-  ngOnInit() {
-    this.validateForm = this.fb.group({
-      brokerId: ['', [Validators.required]],
-      paymentField: ['', [Validators.required]],
-      paymentDate: ['', [Validators.required]],
-      paymentAmount: ['', [Validators.required]],
-    });
-  }
-
-  calculate(): void {
-    console.log(this.brokerId);
-    this.client
-      .get<ToBePaid>(
-        `https://localhost:5001/payment/balance/${this.brokerId}/${this.paymentField}`
-      )
-      .subscribe((res) => {
-        this.toBePaid = res.balance;
-      });
-  }
-
   bId(result: number): void {
     this.brokerId = result;
+    if (this.brokerId != null && this.paymentField != null) {
+      this.client
+        .get<ToBePaid>(
+          `https://localhost:5001/payment/balance/${this.brokerId}/${this.paymentField}`
+        )
+        .subscribe((res) => {
+          this.toBePaid = res.balance;
+        });
+    }
   }
 
   pField(result: string): void {
     this.paymentField = result;
+    if (this.brokerId != null && this.paymentField != null) {
+      this.client
+        .get<ToBePaid>(
+          `https://localhost:5001/payment/balance/${this.brokerId}/${this.paymentField}`
+        )
+        .subscribe((res) => {
+          this.toBePaid = res.balance;
+        });
+    }
+  }
+
+  onChange(): void {
+    if (this.brokerId != null && this.paymentField != null) {
+      this.client
+        .get<ToBePaid>(
+          `https://localhost:5001/payment/balance/${this.brokerId}/${this.paymentField}`
+        )
+        .subscribe((res) => {
+          this.toBePaid = res.balance;
+        });
+    }
   }
 
   compareFun(b1: number | string, b2: number): boolean {
@@ -141,7 +161,7 @@ export class PaymentEditComponent implements OnInit {
           paymentDate: toDateString(this.f.paymentDate.value),
           paymentAmount: this.f.paymentAmount.value,
         };
-        // console.log('ADD', data.brokerId);
+        console.log('Date', data.paymentDate);
         this.client
           .post('https://localhost:5001/payment', data)
           .subscribe((_) => {
@@ -149,12 +169,11 @@ export class PaymentEditComponent implements OnInit {
             this.message.create('success', `Payment Successfully Added`);
           });
       } else {
-        const date = toDateString(this.f.paymentDate.value);
         const data: Payment = {
           id: this.id,
           brokerId: this.f.brokerId.value,
           paymentField: this.f.paymentField.value,
-          paymentDate: date,
+          paymentDate: toDateString(this.f.paymentDate.value),
           paymentAmount: this.f.paymentAmount.value,
         };
         // console.log('EDIT', data.brokerId);

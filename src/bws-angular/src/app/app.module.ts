@@ -1,3 +1,4 @@
+import { AutoFocusDirective } from './_helpers/auto-focus.directive';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -41,6 +42,7 @@ registerLocaleData(en);
     CalculationComponent,
     PaymentComponent,
     PaymentEditComponent,
+    AutoFocusDirective,
   ],
   imports: [
     BrowserModule,

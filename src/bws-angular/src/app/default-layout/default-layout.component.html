@@ -1,6 +1,11 @@
 <nz-layout>
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-    <div class="logo">BWS</div>
+    <div *ngIf="!isCollapsed" class="logo">
+      <img src="../../assets/logoWithName.png" />
+    </div>
+    <div *ngIf="isCollapsed" class="slogo">
+      <img src="../../assets/logo.png" />
+    </div>
     <ul nz-menu nzTheme="dark" nzMode="inline">
       <li nz-menu-item routerLink="/brokers">
         <i nz-icon nzType="user"></i>

@@ -1,7 +1,7 @@
 export class Sales {
   id?: number;
   brokerId?: number;
-  billNumber: number;
+  billNumber: string;
   billDate: string;
   billQuantity: number;
   billAmount: number;

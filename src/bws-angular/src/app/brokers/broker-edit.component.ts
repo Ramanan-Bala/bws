@@ -44,6 +44,7 @@ export class BrokerEditComponent implements OnInit {
           this.f.addressLine2.setValue(res.addressLine2);
           this.f.city.setValue(res.city);
           this.f.contactNumber.setValue(res.contactNumber);
+          this.f.note.setValue(res.note);
         });
     }
   }
@@ -55,7 +56,16 @@ export class BrokerEditComponent implements OnInit {
       addressLine1: ['', [Validators.required]],
       addressLine2: ['', [Validators.required]],
       city: ['', [Validators.required]],
-      contactNumber: ['', [Validators.required]],
+      contactNumber: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[0-9,]*$'),
+          Validators.minLength(10),
+          Validators.maxLength(24),
+        ],
+      ],
+      note: [''],
     });
   }
 
@@ -84,6 +94,7 @@ export class BrokerEditComponent implements OnInit {
           addressLine2: this.f.addressLine2.value,
           city: this.f.city.value,
           contactNumber: this.f.contactNumber.value,
+          note: this.f.note.value,
         };
         this.client
           .post('https://localhost:5001/broker', data)
@@ -99,6 +110,7 @@ export class BrokerEditComponent implements OnInit {
           addressLine2: this.f.addressLine2.value,
           city: this.f.city.value,
           contactNumber: this.f.contactNumber.value,
+          note: this.f.note.value,
         };
         this.client
           .put('https://localhost:5001/broker/' + this.id, data)

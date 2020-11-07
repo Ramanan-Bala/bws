@@ -22,6 +22,13 @@ namespace bws_api.Controllers
             {
                 query = query + " AND BrokerId = @id";
             }
+            // if (paymentField == "BOTH")
+            // {
+            //     query = "SELECT b.BrokerName ,p.PaymentField ,p.PaymentDate ,p.PaymentAmount,p.BrokerID,p.Id " +
+            //         "FROM payment p " +
+            //         "LEFT JOIN brokers b on p.BrokerId = b.Id " +
+            //         "AND PaymentDate BETWEEN @from AND @to ";
+            // }
             using (var con = Connect())
             {
                 var payment = con.Query<Payment>(query, new { id, paymentField, from, to });
@@ -86,11 +93,16 @@ namespace bws_api.Controllers
             field = field.ToUpper();
             using (var con = Connect())
             {
-                var balance = con.ExecuteScalar<decimal>("select sum(c.CalcAmount) - IFNULL(sum(p.PaymentAmount),0) ToBePaid " +
-                            "from calc c " +
-                            "left join payment p on c.BrokerId = p.BrokerId and c.CalcField = p.PaymentField " +
-                            "where c.CalcField = @field and c.BrokerId = @brokerId " +
-                            "group by c.BrokerId", new { brokerId, field });
+                var balance = con.ExecuteScalar<decimal>("select sum(cp.CalcAmount) - sum(cp.PaidAmount) BalaceAmount " +
+                    "from(select sum(c.CalcAmount) CalcAmount, 0 PaidAmount " +
+                    "from calc c " +
+                    "where c.CalcField = @field and c.BrokerId = @brokerId " +
+                    "group by c.BrokerId, c.CalcField " +
+                    "union all " +
+                    "select 0 CalcAmount, sum(p.PaymentAmount) PaidAmount " +
+                    "from payment p " +
+                    "where p.PaymentField = @field and p.BrokerId = @brokerId " +
+                    "group by p.BrokerId, p.PaymentField ) cp", new { brokerId, field });
                 return Ok(new { brokerId = brokerId, Field = field, Balance = balance });
             }
         }

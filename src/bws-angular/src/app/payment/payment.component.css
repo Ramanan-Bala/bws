@@ -1,4 +1,5 @@
-[nz-form] {
+.nz-row {
+  display: flex;
   margin-bottom: -23px;
 }
 .mw {

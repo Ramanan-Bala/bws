@@ -59,6 +59,11 @@ export class PaymentComponent implements OnInit {
     });
   }
 
+  onChange(result: any): void {
+    this.from = toDateString(result[0]);
+    this.to = toDateString(result[1]);
+  }
+
   get f(): { [key: string]: AbstractControl } {
     return this.validateForm.controls;
   }
@@ -96,10 +101,5 @@ export class PaymentComponent implements OnInit {
         this.loadData();
       });
     this.message.create('success', `Summary Successfully Deleted`);
-  }
-
-  onChange(result: any): void {
-    this.from = toDateString(result[0]);
-    this.to = toDateString(result[1]);
   }
 }

@@ -1,11 +1,11 @@
-import { Broker, Sales } from '../_models';
+import { Broker } from '../_models';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'brokerSearch',
 })
 export class BrokerSearchPipe implements PipeTransform {
-  transform(broker: Broker[], sales: Sales[], searchValue: string): any {
+  transform(broker: Broker[], searchValue: string): any {
     if (!broker || !searchValue) {
       return broker;
     }

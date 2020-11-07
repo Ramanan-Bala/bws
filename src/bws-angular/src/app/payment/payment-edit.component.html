@@ -45,6 +45,17 @@
         </nz-select>
       </nz-form-control>
     </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label [nzSm]="6" [nzXs]="24">To Be Paid</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <input
+          nz-input
+          style="width: 100px"
+          [disabled]="true"
+          value="{{ toBePaid }}"
+        />
+      </nz-form-control>
+    </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="paymentDate"
         >Payment Date</nz-form-label
@@ -76,26 +87,6 @@
           formControlName="paymentAmount"
           id="paymentAmount"
         />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item nz-row>
-      <nz-form-label [nzSm]="6" [nzXs]="24">To Be Paid</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24">
-        <input
-          nz-input
-          style="width: 100px"
-          [disabled]="true"
-          value="{{ toBePaid }}"
-        />
-        <button
-          *ngIf="disabled ? false : true"
-          nz-button
-          nzType="primary"
-          class="lm"
-          (click)="calculate()"
-        >
-          Calculate
-        </button>
       </nz-form-control>
     </nz-form-item>
 

@@ -1,4 +1,8 @@
-export function toDateString(d: Date): string {
+export function toDateString(d: Date | string): string {
+  if (typeof d === 'string') {
+    d = new Date(Date.parse(d));
+  }
+
   let dd: string = d.getDate().toString();
   let mm: string = (d.getMonth() + 1).toString();
   const yyyy: string = d.getFullYear().toString();

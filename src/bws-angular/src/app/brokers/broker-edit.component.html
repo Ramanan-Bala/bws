@@ -9,11 +9,17 @@
         [nzXs]="24"
         nzErrorTip="The input is not valid Name!"
       >
-        <input nz-input formControlName="name" id="name" />
+        <input
+          autocomplete="off"
+          autoFocus
+          nz-input
+          formControlName="name"
+          id="name"
+        />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="addressLine1"
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="addressLine1"
         >Address Line 1</nz-form-label
       >
       <nz-form-control
@@ -21,11 +27,16 @@
         [nzXs]="24"
         nzErrorTip="The input is not valid Address Line 1!"
       >
-        <input nz-input formControlName="addressLine1" id="addressLine1" />
+        <input
+          autocomplete="off"
+          nz-input
+          formControlName="addressLine1"
+          id="addressLine1"
+        />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="addressLine2"
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="addressLine2"
         >Address Line 2</nz-form-label
       >
       <nz-form-control
@@ -33,23 +44,26 @@
         [nzXs]="24"
         nzErrorTip="The input is not valid addressLine2!"
       >
-        <input nz-input formControlName="addressLine2" id="addressLine2" />
+        <input
+          autocomplete="off"
+          nz-input
+          formControlName="addressLine2"
+          id="addressLine2"
+        />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="city"
-        >City</nz-form-label
-      >
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="city">City</nz-form-label>
       <nz-form-control
         [nzSm]="14"
         [nzXs]="24"
         nzErrorTip="The input is not valid city!"
       >
-        <input nz-input formControlName="city" id="city" />
+        <input autocomplete="off" nz-input formControlName="city" id="city" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="contactNumber"
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="contactNumber"
         >Contact Number</nz-form-label
       >
       <nz-form-control
@@ -57,7 +71,22 @@
         [nzXs]="24"
         nzErrorTip="The input is not valid Contact Number!"
       >
-        <input nz-input formControlName="contactNumber" id="contactNumber" />
+        <input
+          autocomplete="off"
+          nz-input
+          formControlName="contactNumber"
+          id="contactNumber"
+        />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="6" [nzXs]="24">Note </nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24">
+        <textarea
+          nz-input
+          [nzAutosize]="{ minRows: 2, maxRows: 6 }"
+          formControlName="note"
+        ></textarea>
       </nz-form-control>
     </nz-form-item>
 
@@ -66,7 +95,7 @@
         <button (click)="submitForm()" nz-button nzType="primary">
           Submit
         </button>
-        <button (click)="cancelForm()" nz-button class="lm">cancel</button>
+        <button (click)="cancelForm()" nz-button class="lm">Cancel</button>
       </nz-form-control>
     </nz-form-item>
   </form>

@@ -11,11 +11,27 @@
 }
 
 .logo {
-  height: 32px;
-  color: #fff;
-  font-size: 30px;
-  margin-bottom: 16px;
-  margin-left: 30%;
+  width: 200px;
+  height: 60px;
+}
+
+/* resize images */
+.logo img {
+  margin: 10px;
+  margin-top: 15px;
+  width: 90%;
+}
+
+.slogo {
+  width: 35px;
+}
+
+/* resize images */
+.slogo img {
+  margin-bottom: 10px;
+  margin-top: 13px;
+  margin-left: 24px;
+  width: 90%;
 }
 
 nz-layout {

@@ -10,7 +10,7 @@ import {
 } from '@angular/forms';
 
 import { Sales, Broker } from '../_models';
-import { toDateString } from '../_helpers';
+import { dateLessThan, toDateString } from '../_helpers';
 
 @Component({
   selector: 'app-sales-summary-edit',
@@ -85,7 +85,7 @@ export class SalesSummaryEditComponent implements OnInit {
     this.validateForm = this.fb.group({
       brokerId: ['', [Validators.required]],
       billNumber: ['', [Validators.required]],
-      billDate: ['', [Validators.required]],
+      billDate: ['', [Validators.required, dateLessThan('billDate')]],
       billQuantity: ['', [Validators.required]],
       billAmount: ['', [Validators.required]],
     });

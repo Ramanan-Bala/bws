@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Broker } from '../_models';
+import { Broker, brokerHeader, Sort } from '../_models';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
@@ -12,6 +12,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class BrokersComponent implements OnInit {
   brokers: Broker[] = [];
   searchValue: string;
+
+  sort: Sort[] = brokerHeader;
+
   visible = false;
   loading = true;
 
