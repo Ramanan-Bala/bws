@@ -32,10 +32,10 @@ create table if not exists config (
 
 create table if not exists calc (
 	Id int not null primary key auto_increment,
-	CalculationField varchar(10) not null,
-	CalculationDate date not null,
+	CalcField varchar(10) not null,
+	CalcDate date not null,
 	BrokerId int not null,
-	CalculationAmount decimal(12,2) not null,
+	CalcAmount decimal(12,2) not null,
 	TotalSales decimal(12,2),
 	CalcPercenrage decimal(12,2),
 	Changed bit(1),
