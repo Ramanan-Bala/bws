@@ -3532,7 +3532,6 @@
       "path": "system.net.nameresolution/4.0.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5830,19 +5829,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\seeth\\.nuget\\packages\\": {}
+    "C:\\Users\\tbala\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj",
+      "projectUniqueName": "d:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj",
       "projectName": "bws-api",
-      "projectPath": "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj",
-      "packagesPath": "C:\\Users\\seeth\\.nuget\\packages\\",
-      "outputPath": "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\obj\\",
+      "projectPath": "d:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj",
+      "packagesPath": "C:\\Users\\tbala\\.nuget\\packages\\",
+      "outputPath": "d:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\seeth\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tbala\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
