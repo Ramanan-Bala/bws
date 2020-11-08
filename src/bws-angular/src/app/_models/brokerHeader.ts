@@ -32,12 +32,6 @@ export const brokerHeader: Sort[] = [
     sortDirections: [null],
   },
   {
-    name: 'Note',
-    sortOrder: null,
-    sortFn: null,
-    sortDirections: [null],
-  },
-  {
     name: 'Actions',
     sortOrder: null,
     sortFn: null,

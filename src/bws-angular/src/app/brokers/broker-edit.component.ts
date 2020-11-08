@@ -53,16 +53,16 @@ export class BrokerEditComponent implements OnInit {
   ngOnInit() {
     this.validateForm = this.fb.group({
       name: ['', [Validators.required]],
-      addressLine1: ['', [Validators.required]],
-      addressLine2: ['', [Validators.required]],
-      city: ['', [Validators.required]],
+      addressLine1: [''],
+      addressLine2: [''],
+      city: [''],
       contactNumber: [
         '',
         [
           Validators.required,
-          Validators.pattern('^[0-9,]*$'),
+          Validators.pattern('^[0-9,-]*$'),
           Validators.minLength(10),
-          Validators.maxLength(24),
+          Validators.maxLength(30),
         ],
       ],
       note: [''],

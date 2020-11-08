@@ -17,7 +17,7 @@
           <th>Broker Name</th>
           <th>Date</th>
           <th>Total Sales</th>
-          <th>{{ title }} Percentage</th>
+          <th>{{ title }} %</th>
           <th>{{ title }} Amount</th>
         </tr>
       </thead>
@@ -65,7 +65,7 @@
     *ngIf="alert"
     nzType="info"
     nzMessage="Informational Notes"
-    nzDescription="Calculated {{ title }} to pay the broker"
+    nzDescription="{{ title }} updated successfully"
     nzShowIcon
   ></nz-alert>
 </nz-card>
