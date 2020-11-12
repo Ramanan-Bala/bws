@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from 'src/environments/environment';
+
 import { Sales, salesHeader, Sort } from '../_models';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
@@ -22,17 +24,13 @@ export class SalesSummaryComponent implements OnInit {
     this.loadData();
   }
 
-  // trackByName(_: number, item: Sales): string {
-  //   return item.brokerName;
-  // }
-
   clickMe(): void {
     this.visible = false;
   }
 
   delData(data: number): void {
     this.client
-      .delete('https://localhost:5001/SalesSummary/' + data)
+      .delete(`${environment.apiUrl}/SalesSummary/` + data)
       .subscribe((_) => {
         this.loadData();
       });
@@ -40,7 +38,7 @@ export class SalesSummaryComponent implements OnInit {
   }
 
   loadData(): void {
-    this.client.get<Sales[]>('https://localhost:5001/SalesSummary').subscribe(
+    this.client.get<Sales[]>(`${environment.apiUrl}/SalesSummary`).subscribe(
       (res) => {
         this.salesSummary = res;
         this.loading = false;
@@ -50,6 +48,4 @@ export class SalesSummaryComponent implements OnInit {
       }
     );
   }
-
-  // console.log(this.setOfCheckedId);
 }

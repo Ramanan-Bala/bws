@@ -1,5 +1,10 @@
 D:\Development\Projects\dotnet\bws\src\bws-api\bin\Debug\net5.0\appsettings.Development.json
 D:\Development\Projects\dotnet\bws\src\bws-api\bin\Debug\net5.0\appsettings.json
+D:\Development\Projects\dotnet\bws\src\bws-api\bin\Debug\net5.0\publish\appsettings.Development.json
+D:\Development\Projects\dotnet\bws\src\bws-api\bin\Debug\net5.0\publish\appsettings.json
+D:\Development\Projects\dotnet\bws\src\bws-api\bin\Debug\net5.0\publish\bws-api.deps.json
+D:\Development\Projects\dotnet\bws\src\bws-api\bin\Debug\net5.0\publish\bws-api.runtimeconfig.dev.json
+D:\Development\Projects\dotnet\bws\src\bws-api\bin\Debug\net5.0\publish\bws-api.runtimeconfig.json
 D:\Development\Projects\dotnet\bws\src\bws-api\bin\Debug\net5.0\bws-api.exe
 D:\Development\Projects\dotnet\bws\src\bws-api\bin\Debug\net5.0\bws-api.deps.json
 D:\Development\Projects\dotnet\bws\src\bws-api\bin\Debug\net5.0\bws-api.runtimeconfig.json

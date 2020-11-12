@@ -8,3 +8,4 @@ export * from './sort';
 export * from './salesHeader';
 export * from './brokerHeader';
 export * from './toBePaid';
+export * from './menu';

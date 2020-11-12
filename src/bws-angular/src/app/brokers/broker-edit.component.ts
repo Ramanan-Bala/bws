@@ -9,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 
+import { environment } from '../../environments/environment';
 import { Broker } from '../_models';
 
 @Component({
@@ -37,7 +38,7 @@ export class BrokerEditComponent implements OnInit {
     } else if (this.id >= 0) {
       this.title = 'Edit Broker';
       this.client
-        .get<Broker>('https://localhost:5001/broker/' + this.id)
+        .get<Broker>(`${environment.apiUrl}/broker/${this.id}`)
         .subscribe((res) => {
           this.f.name.setValue(res.brokerName);
           this.f.addressLine1.setValue(res.addressLine1);
@@ -97,7 +98,7 @@ export class BrokerEditComponent implements OnInit {
           note: this.f.note.value,
         };
         this.client
-          .post('https://localhost:5001/broker', data)
+          .post(`${environment.apiUrl}/broker`, data)
           .subscribe((_) => {
             this.router.navigate(['/brokers']);
             this.message.create('success', `Broker Successfully Added`);
@@ -113,7 +114,7 @@ export class BrokerEditComponent implements OnInit {
           note: this.f.note.value,
         };
         this.client
-          .put('https://localhost:5001/broker/' + this.id, data)
+          .put(`${environment.apiUrl}/broker/${this.id}`, data)
           .subscribe((_) => {
             this.router.navigate(['/brokers']);
             this.message.create('success', `Broker Successfully Edited`);

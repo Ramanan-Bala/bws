@@ -1,4 +1,3 @@
-import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -8,9 +7,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { differenceInCalendarDays, format } from 'date-fns';
 
-import { toDateString } from '../_helpers';
+import { environment } from '../../environments/environment';
+
 import { Calculation } from '../_models';
+// import { toDateString } from '../_helpers';
 
 @Component({
   selector: 'app-calculation',
@@ -35,7 +37,6 @@ export class CalculationComponent implements OnInit {
 
   constructor(
     private client: HttpClient,
-    private message: NzMessageService,
     private route: ActivatedRoute,
     private fb: FormBuilder
   ) {
@@ -57,6 +58,11 @@ export class CalculationComponent implements OnInit {
     return this.validateForm.controls;
   }
 
+  disabledDate = (current: Date): boolean => {
+    return differenceInCalendarDays(current, new Date()) > 0;
+    // tslint:disable-next-line: semicolon
+  };
+
   loadData(): void {
     this.submitted = true;
 
@@ -71,7 +77,7 @@ export class CalculationComponent implements OnInit {
     } else {
       this.client
         .get<Calculation[]>(
-          `https://localhost:5001/calculation?calcField=${this.field}&from=${this.from}&to=${this.to}`
+          `${environment.apiUrl}/calculation?calcField=${this.field}&from=${this.from}&to=${this.to}`
         )
         .subscribe((res) => {
           this.calculation = res;
@@ -84,7 +90,7 @@ export class CalculationComponent implements OnInit {
   onSubmit(): void {
     this.client
       .post<Calculation[]>(
-        `https://localhost:5001/calculation?calcField=${this.field}&from=${this.from}&to=${this.to}`,
+        `${environment.apiUrl}/calculation?calcField=${this.field}&from=${this.from}&to=${this.to}`,
         this.calculation
       )
       .subscribe((_) => {
@@ -93,8 +99,10 @@ export class CalculationComponent implements OnInit {
       });
   }
 
-  onChange(result: Date[]): void {
-    this.from = toDateString(result[0]);
-    this.to = toDateString(result[1]);
+  onChange(result: any): void {
+    if (result.length > 0) {
+      this.from = format(result[0], 'yyyy-MM-dd');
+      this.to = format(result[1], 'yyyy-MM-dd');
+    }
   }
 }

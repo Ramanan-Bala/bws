@@ -8,6 +8,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { differenceInCalendarDays, format } from 'date-fns';
+
+import { environment } from '../../environments/environment';
 
 import { Broker, Payment, ToBePaid } from '../_models';
 import { toDateString } from '../_helpers';
@@ -31,6 +34,9 @@ export class PaymentEditComponent implements OnInit {
   disabled = true;
 
   brokers: Broker[] = [];
+  disabledDate = (current: Date): boolean => {
+    return differenceInCalendarDays(current, new Date()) > 0;
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -52,7 +58,7 @@ export class PaymentEditComponent implements OnInit {
     }
 
     this.client
-      .get<Broker[]>('https://localhost:5001/broker')
+      .get<Broker[]>(`${environment.apiUrl}/broker`)
       .subscribe((res) => {
         this.brokers = res;
       });
@@ -64,11 +70,11 @@ export class PaymentEditComponent implements OnInit {
     // tslint:disable-next-line: typedef
     if (this.id == undefined) {
       this.title = 'Add payment';
-      this.f.paymentDate.setValue(toDateString(new Date()));
+      this.f.paymentDate.setValue(format(new Date(), 'yyyy-MM-dd'));
     } else if (this.id >= 0) {
       this.title = 'Edit payment';
       this.client
-        .get<Payment>('https://localhost:5001/Payment/' + this.id)
+        .get<Payment>(`${environment.apiUrl}/Payment/` + this.id)
         .subscribe((res) => {
           this.f.brokerId.setValue(res.brokerId);
           this.f.paymentField.setValue(res.paymentField);
@@ -78,7 +84,7 @@ export class PaymentEditComponent implements OnInit {
           this.brokerId = res.brokerId;
           this.client
             .get<ToBePaid>(
-              `https://localhost:5001/payment/balance/${this.brokerId}/${this.paymentField}`
+              `${environment.apiUrl}/payment/balance/${this.brokerId}/${this.paymentField}`
             )
             // tslint:disable-next-line: no-shadowed-variable
             .subscribe((res) => {
@@ -93,7 +99,7 @@ export class PaymentEditComponent implements OnInit {
     if (this.brokerId != null && this.paymentField != null) {
       this.client
         .get<ToBePaid>(
-          `https://localhost:5001/payment/balance/${this.brokerId}/${this.paymentField}`
+          `${environment.apiUrl}/payment/balance/${this.brokerId}/${this.paymentField}`
         )
         .subscribe((res) => {
           this.toBePaid = res.balance;
@@ -106,7 +112,7 @@ export class PaymentEditComponent implements OnInit {
     if (this.brokerId != null && this.paymentField != null) {
       this.client
         .get<ToBePaid>(
-          `https://localhost:5001/payment/balance/${this.brokerId}/${this.paymentField}`
+          `${environment.apiUrl}/payment/balance/${this.brokerId}/${this.paymentField}`
         )
         .subscribe((res) => {
           this.toBePaid = res.balance;
@@ -118,7 +124,7 @@ export class PaymentEditComponent implements OnInit {
     if (this.brokerId != null && this.paymentField != null) {
       this.client
         .get<ToBePaid>(
-          `https://localhost:5001/payment/balance/${this.brokerId}/${this.paymentField}`
+          `${environment.apiUrl}/payment/balance/${this.brokerId}/${this.paymentField}`
         )
         .subscribe((res) => {
           this.toBePaid = res.balance;
@@ -128,8 +134,7 @@ export class PaymentEditComponent implements OnInit {
 
   compareFun(b1: number | string, b2: number): boolean {
     if (b1) {
-      // console.log('compare', b1, b2, typeof b1);
-      return b1 === b2; // typeof b1 === 'string' ? b1 === b2.brokerName : b1.id === b2.id;
+      return b1 === b2;
     } else {
       return false;
     }
@@ -148,8 +153,6 @@ export class PaymentEditComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    // console.log(this.f.billDate.value);
-
     if (this.validateForm.invalid) {
       return;
     } else {
@@ -163,7 +166,7 @@ export class PaymentEditComponent implements OnInit {
         };
         console.log('Date', data.paymentDate);
         this.client
-          .post('https://localhost:5001/payment', data)
+          .post(`${environment.apiUrl}/payment`, data)
           .subscribe((_) => {
             this.router.navigate(['/payment']);
             this.message.create('success', `Payment Successfully Added`);
@@ -176,9 +179,8 @@ export class PaymentEditComponent implements OnInit {
           paymentDate: toDateString(this.f.paymentDate.value),
           paymentAmount: this.f.paymentAmount.value,
         };
-        // console.log('EDIT', data.brokerId);
         this.client
-          .put('https://localhost:5001/Payment/' + this.id, data)
+          .put(`${environment.apiUrl}/Payment/` + this.id, data)
           .subscribe((_) => {
             this.router.navigate(['/payment']);
             this.message.create('success', `Payment Successfully Edited`);

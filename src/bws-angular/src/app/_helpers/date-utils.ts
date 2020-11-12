@@ -7,11 +7,13 @@ export function toDateString(d: Date | string): string {
   let mm: string = (d.getMonth() + 1).toString();
   const yyyy: string = d.getFullYear().toString();
 
-  if (dd < '10') {
+  // tslint:disable-next-line: radix
+  if (parseInt(dd) < 10) {
     dd = `0${dd}`;
   }
 
-  if (mm < '10') {
+  // tslint:disable-next-line: radix
+  if (parseInt(mm) < 10) {
     mm = `0${mm}`;
   }
   return `${yyyy}-${mm}-${dd}`;

@@ -13,4 +13,12 @@ namespace bws_api
         public decimal CalcAmount { get; set; }
         public string CalcField { get; set; }
     }
+
+    public class CalcRequest
+    {
+        public int BrokerId { get; set; }
+        public string CalcField { get; set; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
+    }
 }

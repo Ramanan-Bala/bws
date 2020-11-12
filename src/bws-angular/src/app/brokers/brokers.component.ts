@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from '../../environments/environment';
+
 import { Broker, brokerHeader, Sort } from '../_models';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
@@ -11,12 +13,11 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 })
 export class BrokersComponent implements OnInit {
   brokers: Broker[] = [];
-  searchValue: string;
-
   sort: Sort[] = brokerHeader;
 
-  visible = false;
   loading = true;
+
+  searchValue: string;
 
   constructor(private message: NzMessageService, private client: HttpClient) {}
 
@@ -24,17 +25,9 @@ export class BrokersComponent implements OnInit {
     this.loadData();
   }
 
-  clickMe(): void {
-    this.visible = false;
-  }
-
-  change(value: boolean): void {
-    console.log(value);
-  }
-
   delData(data: number): void {
     this.client
-      .delete('https://localhost:5001/broker/' + data)
+      .delete(`${environment.apiUrl}/broker/` + data)
       .subscribe((_) => {
         this.loadData();
       });
@@ -42,12 +35,10 @@ export class BrokersComponent implements OnInit {
   }
 
   loadData(): void {
-    this.client.get<Broker[]>('https://localhost:5001/broker').subscribe(
+    this.client.get<Broker[]>(`${environment.apiUrl}/broker`).subscribe(
       (res) => {
         this.brokers = res;
         this.loading = false;
-        // console.log(this.brokers);
-        // console.log(res);
       },
       (err) => {
         console.log(err);

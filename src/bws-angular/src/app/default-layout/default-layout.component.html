@@ -1,42 +1,97 @@
 <nz-layout>
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
-    <div *ngIf="!isCollapsed" class="logo">
-      <img src="../../assets/logoWithName.png" />
-    </div>
-    <div *ngIf="isCollapsed" class="slogo">
-      <img src="../../assets/logo.png" />
-    </div>
+    <a href="/">
+      <div *ngIf="!isCollapsed" class="logo">
+        <img
+          [src]="
+            theme
+              ? '../../assets/logoWithName.png'
+              : '../../assets/logoBlack.png'
+          "
+        />
+      </div>
+      <div *ngIf="isCollapsed" class="slogo">
+        <img src="../../assets/logo.png" />
+      </div>
+    </a>
     <ul nz-menu nzTheme="dark" nzMode="inline">
-      <li nz-menu-item routerLink="/brokers">
-        <i nz-icon nzType="user"></i>
-        <span>Broker</span>
-      </li>
-      <li nz-menu-item routerLink="/summary">
-        <i nz-icon nzType="stock" nzTheme="outline"></i>
-        <span>Sales Summary</span>
-      </li>
-      <li nz-menu-item [routerLink]="['/calculation/COMMN']">
-        <i nz-icon nzType="area-chart" nzTheme="outline"></i>
-        <span>Commission</span>
-      </li>
-      <li nz-menu-item [routerLink]="['/calculation/BONUS']">
-        <i nz-icon nzType="area-chart" nzTheme="outline"></i>
-        <span>Bonus</span>
-      </li>
-      <li nz-menu-item routerLink="/payment">
-        <i nz-icon nzType="dollar" nzTheme="outline"></i>
-        <span>Payment</span>
-      </li>
+      <ng-container
+        *ngTemplateOutlet="menuTpl; context: { $implicit: menus }"
+      ></ng-container>
+      <ng-template #menuTpl let-menus>
+        <ng-container *ngFor="let menu of menus">
+          <li
+            *ngIf="!menu.children"
+            nz-menu-item
+            [nzPaddingLeft]="menu.level * 24"
+            [nzDisabled]="menu.disabled"
+            [nzSelected]="menu.selected"
+            [nzMatchRouter]="menu.path"
+            [routerLink]="menu.path"
+          >
+            <i nz-icon [nzType]="menu.icon" *ngIf="menu.icon"></i>
+            <span>{{ menu.title }}</span>
+          </li>
+          <!-- <li
+            *ngIf="menu.children"
+            nz-submenu
+            [nzPaddingLeft]="menu.level * 24"
+            [nzOpen]="menu.open"
+            [nzTitle]="menu.title"
+            [nzIcon]="menu.icon"
+            [nzDisabled]="menu.disabled"
+            (nzOpenChange)="openHandler(menu.title)"
+          >
+            <ul>
+              <ng-container
+                *ngTemplateOutlet="
+                  menuTpl;
+                  context: { $implicit: menu.children }
+                "
+              ></ng-container>
+            </ul>
+          </li> -->
+        </ng-container>
+      </ng-template>
     </ul>
   </nz-sider>
   <nz-layout>
     <nz-header>
-      <i
-        class="trigger"
-        nz-icon
-        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="isCollapsed = !isCollapsed"
-      ></i>
+      <div class="app-header" nz-row nzJustify="space-between">
+        <div nz-col>
+          <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <i
+              class="trigger"
+              nz-icon
+              [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            ></i>
+          </span>
+        </div>
+        <div nz-col>
+          <a nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
+            <i
+              nz-icon
+              nzType="user"
+              style="font-size: 20px; color: rgb(0, 21, 41)"
+              class="trigger"
+            ></i>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu nzSelectable>
+                <li nz-menu-item>
+                  <i nz-icon nzType="profile" nzTheme="outline"></i>Profile
+                </li>
+                <li nz-menu-item>
+                  <i nz-icon nzType="setting" nzTheme="outline"></i>Settings
+                </li>
+                <li nz-menu-divider></li>
+                <li nz-menu-item>
+                  <i nz-icon nzType="logout" nzTheme="outline"></i>Log out
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </a>
+        </div>
+      </div>
     </nz-header>
     <nz-content>
       <router-outlet></router-outlet>

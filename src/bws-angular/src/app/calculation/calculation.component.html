@@ -85,6 +85,7 @@
         <nz-form-item>
           <nz-form-control nzErrorTip="Date required to calculate!">
             <nz-range-picker
+              [nzDisabledDate]="disabledDate"
               formControlName="rangePicker"
               (ngModelChange)="onChange($event)"
             ></nz-range-picker>

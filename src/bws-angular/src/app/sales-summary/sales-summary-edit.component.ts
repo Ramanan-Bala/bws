@@ -8,9 +8,13 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { differenceInCalendarDays } from 'date-fns';
+
+import { environment } from 'src/environments/environment';
 
 import { Sales, Broker } from '../_models';
-import { dateLessThan, toDateString } from '../_helpers';
+import { toDateString } from '../_helpers';
+// import { dateLessThan, toDateString } from '../_helpers';
 
 @Component({
   selector: 'app-sales-summary-edit',
@@ -21,6 +25,7 @@ import { dateLessThan, toDateString } from '../_helpers';
 export class SalesSummaryEditComponent implements OnInit {
   id = undefined;
   title: string;
+  searchValue: string;
   dateFormat = 'yyyy-MM-dd';
   validateForm!: FormGroup;
   submitted = false;
@@ -36,19 +41,30 @@ export class SalesSummaryEditComponent implements OnInit {
   ) {
     this.id = this.route.snapshot.params.id;
 
+    this.validateForm = this.fb.group({
+      brokerId: ['', [Validators.required]],
+      billNumber: ['', [Validators.required]],
+      billDate: ['', [Validators.required]],
+      billQuantity: ['', [Validators.required]],
+      billAmount: ['', [Validators.required]],
+    });
+
     this.client
-      .get<Broker[]>('https://localhost:5001/broker')
+      .get<Broker[]>(`${environment.apiUrl}/broker`)
       .subscribe((res) => {
         this.brokers = res;
       });
+  }
 
+  ngOnInit(): void {
     // tslint:disable-next-line: triple-equals
     if (this.id == undefined) {
       this.title = 'Add Summary';
+      this.f.billDate.setValue(toDateString(new Date()));
     } else if (this.id >= 0) {
       this.title = 'Edit Summary';
       this.client
-        .get<Sales>('https://localhost:5001/SalesSummary/' + this.id)
+        .get<Sales>(`${environment.apiUrl}/SalesSummary/` + this.id)
         .subscribe((res) => {
           this.f.brokerId.setValue(res.brokerId);
           this.f.billNumber.setValue(res.billNumber);
@@ -59,45 +75,24 @@ export class SalesSummaryEditComponent implements OnInit {
     }
   }
 
-  onChange(result: Date): void {
-    // console.log(result.getUTCDate());
-  }
-
-  // compareFun(b1: Broker | string, b2: Broker): boolean {
-  //   if (b1) {
-  //     return typeof b1 === 'string' ? b1 === b2.brokerName : b1.id === b2.id;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
   compareFun(b1: number | string, b2: number): boolean {
     if (b1) {
-      // console.log('compare', b1, b2, typeof b1);
-      return b1 === b2; // typeof b1 === 'string' ? b1 === b2.brokerName : b1.id === b2.id;
+      return b1 === b2;
     } else {
       return false;
     }
-  }
-
-  // tslint:disable-next-line: typedef
-  ngOnInit() {
-    this.validateForm = this.fb.group({
-      brokerId: ['', [Validators.required]],
-      billNumber: ['', [Validators.required]],
-      billDate: ['', [Validators.required, dateLessThan('billDate')]],
-      billQuantity: ['', [Validators.required]],
-      billAmount: ['', [Validators.required]],
-    });
   }
 
   get f(): { [key: string]: AbstractControl } {
     return this.validateForm.controls;
   }
 
+  disabledDate = (current: Date): boolean => {
+    return differenceInCalendarDays(current, new Date()) > 0;
+  };
+
   updateDeptId(id: number): void {
     this.brokers[id].id = id;
-    // console.log(id);
   }
 
   submitForm(): void {
@@ -108,8 +103,6 @@ export class SalesSummaryEditComponent implements OnInit {
       this.validateForm.controls[i].markAsDirty();
       this.validateForm.controls[i].updateValueAndValidity();
     }
-
-    // console.log(this.f.billDate.value);
 
     if (this.validateForm.invalid) {
       return;
@@ -123,9 +116,8 @@ export class SalesSummaryEditComponent implements OnInit {
           billQuantity: this.f.billQuantity.value,
           billAmount: this.f.billAmount.value,
         };
-        // console.log('ADD', data.brokerId);
         this.client
-          .post('https://localhost:5001/SalesSummary', data)
+          .post(`${environment.apiUrl}/SalesSummary`, data)
           .subscribe((_) => {
             this.router.navigate(['/summary']);
             this.message.create('success', `Summary Successfully Added`);
@@ -139,9 +131,8 @@ export class SalesSummaryEditComponent implements OnInit {
           billQuantity: this.f.billQuantity.value,
           billAmount: this.f.billAmount.value,
         };
-        // console.log('EDIT', data.brokerId);
         this.client
-          .put('https://localhost:5001/SalesSummary/' + this.id, data)
+          .put(`${environment.apiUrl}/SalesSummary/` + this.id, data)
           .subscribe((_) => {
             this.router.navigate(['/summary']);
             this.message.create('success', `Summary Successfully Edited`);

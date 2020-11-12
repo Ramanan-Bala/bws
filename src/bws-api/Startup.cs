@@ -30,7 +30,7 @@ namespace bws_api
             {
                 options.AddPolicy("AllowAngular", builder =>
                  {
-                     builder.WithOrigins("http://localhost:4200")
+                     builder.WithOrigins("http://localhost:4200", "http://localhost")
                      .AllowAnyMethod()
                      .AllowAnyHeader();
 

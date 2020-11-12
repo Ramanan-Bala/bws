@@ -1,6 +1,5 @@
 <nz-card nzTitle="Payment" [nzExtra]="extraTemplate" class="tm">
   <nz-table
-    *ngIf="hideTable"
     [nzLoading]="loading"
     [nzPageSize]="10"
     [nzPageSizeOptions]="[5, 10, 20]"
@@ -18,9 +17,6 @@
         <!-- <th>Payment Method</th> -->
         <th>Payment Date</th>
         <th>Paid Amount</th>
-        <!-- <th>Address Line 2</th>
-        <th>City</th>
-        <th>Mobile</th> -->
         <th>Action</th>
       </tr>
     </thead>
@@ -31,9 +27,6 @@
         <!-- <td>{{ data.paymentField }}</td> -->
         <td>{{ data.paymentDate | date: "yyyy-MM-dd" }}</td>
         <td>{{ data.paymentAmount }}</td>
-        <!-- <td>{{ data.addressLine2 }}</td>
-        <td>{{ data.city }}</td>
-        <td>{{ data.contactNumber }}</td> -->
         <td>
           <a
             [routerLink]="['/payment/edit', data.id]"
@@ -52,10 +45,10 @@
             [nzTheme]="'twotone'"
             [nzTwotoneColor]="'#eb2f96'"
             nz-popconfirm
-            nzPopconfirmTitle="Are you sure?"
+            nzPopconfirmTitle="Are you sure,you want to delete this payment?"
             [nzIcon]="iconTpl"
             nzOkText="ok"
-            nzCancelText="cancel"
+            nzCancelText="Cancel"
             (nzOnConfirm)="delData(data.id)"
           ></a>
         </td>
@@ -92,10 +85,12 @@
     <nz-form-item class="lm">
       <nz-form-control nzErrorTip="Date required!">
         <nz-range-picker
+          nzSeparator="-"
+          [nzDisabledDate]="disabledDate"
           formControlName="rangePicker"
           (ngModelChange)="onChange($event)"
         ></nz-range-picker>
-        <button nz-button nzType="primary" class="lm" (click)="loadData()">
+        <button nz-button nzType="primary" class="lm" (click)="onSubmit()">
           Submit
         </button>
         <button

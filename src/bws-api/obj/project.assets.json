@@ -5829,19 +5829,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tbala\\.nuget\\packages\\": {}
+    "C:\\Users\\seeth\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj",
+      "projectUniqueName": "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj",
       "projectName": "bws-api",
-      "projectPath": "d:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj",
-      "packagesPath": "C:\\Users\\tbala\\.nuget\\packages\\",
-      "outputPath": "d:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\obj\\",
+      "projectPath": "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\bws-api.csproj",
+      "packagesPath": "C:\\Users\\seeth\\.nuget\\packages\\",
+      "outputPath": "D:\\Development\\Projects\\dotnet\\bws\\src\\bws-api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\tbala\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\seeth\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

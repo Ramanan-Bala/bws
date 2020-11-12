@@ -66,6 +66,7 @@
         nzErrorTip="The input is not valid Payment Date!"
       >
         <nz-date-picker
+          [nzDisabledDate]="disabledDate"
           nzMode="date"
           formControlName="paymentDate"
           id="paymentDate"

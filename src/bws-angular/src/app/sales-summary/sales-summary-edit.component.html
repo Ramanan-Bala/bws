@@ -21,14 +21,18 @@
         [nzXs]="24"
         nzErrorTip="The input is not valid Broker Name!"
       >
-        <input
+        <!-- <input
           autoFocus
           nz-input
           formControlName="brokerId"
           id="brokerId"
           [nzAutocomplete]="auto"
-        />
-        <nz-autocomplete #auto [compareWith]="compareFun">
+        /> -->
+        <!-- <nz-autocomplete
+          [(ngModel)]="searchValue"
+          #auto
+          [compareWith]="compareFun"
+        >
           <nz-auto-option
             *ngFor="let broker of brokers"
             [nzValue]="broker.id"
@@ -36,14 +40,19 @@
           >
             {{ broker.brokerName }}
           </nz-auto-option>
-        </nz-autocomplete>
-        <!-- <nz-select nzShowSearch nzAllowClear formControlName="brokerId">
+        </nz-autocomplete> -->
+        <nz-select
+          autoFocus
+          nzShowSearch
+          nzAllowClear
+          formControlName="brokerId"
+        >
           <nz-option
             *ngFor="let broker of brokers"
             [nzLabel]="broker.brokerName"
             [nzValue]="broker.id"
           ></nz-option>
-        </nz-select> -->
+        </nz-select>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
@@ -74,10 +83,10 @@
       >
         <!-- <input nz-input formControlName="billDate" id="billDate" /> -->
         <nz-date-picker
+          [nzDisabledDate]="disabledDate"
           nzMode="date"
           formControlName="billDate"
           id="billDate"
-          (ngModelChange)="onChange($event)"
         ></nz-date-picker>
       </nz-form-control>
     </nz-form-item>
