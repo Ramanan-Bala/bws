@@ -47,10 +47,11 @@ export class SalesSummaryEditComponent implements OnInit {
       billDate: ['', [Validators.required]],
       billQuantity: ['', [Validators.required]],
       billAmount: ['', [Validators.required]],
+      commissionPercentage: ['', [Validators.required]],
     });
 
     this.client
-      .get<Broker[]>(`${environment.apiUrl}/broker`)
+      .get<Broker[]>(`${environment.apiUrl}/brokers`)
       .subscribe((res) => {
         this.brokers = res;
       });
@@ -64,13 +65,14 @@ export class SalesSummaryEditComponent implements OnInit {
     } else if (this.id >= 0) {
       this.title = 'Edit Summary';
       this.client
-        .get<Sales>(`${environment.apiUrl}/SalesSummary/` + this.id)
+        .get<Sales>(`${environment.apiUrl}/SalesSummaries/${this.id}`)
         .subscribe((res) => {
           this.f.brokerId.setValue(res.brokerId);
           this.f.billNumber.setValue(res.billNumber);
           this.f.billDate.setValue(res.billDate);
           this.f.billQuantity.setValue(res.billQuantity);
           this.f.billAmount.setValue(res.billAmount);
+          this.f.commissionPercentage.setValue(res.commissionPercentage);
         });
     }
   }
@@ -89,11 +91,8 @@ export class SalesSummaryEditComponent implements OnInit {
 
   disabledDate = (current: Date): boolean => {
     return differenceInCalendarDays(current, new Date()) > 0;
+    // tslint:disable-next-line: semicolon
   };
-
-  updateDeptId(id: number): void {
-    this.brokers[id].id = id;
-  }
 
   submitForm(): void {
     this.submitted = true;
@@ -115,9 +114,10 @@ export class SalesSummaryEditComponent implements OnInit {
           billDate: toDateString(this.f.billDate.value),
           billQuantity: this.f.billQuantity.value,
           billAmount: this.f.billAmount.value,
+          commissionPercentage: this.f.commissionPercentage.value,
         };
         this.client
-          .post(`${environment.apiUrl}/SalesSummary`, data)
+          .post(`${environment.apiUrl}/SalesSummaries`, data)
           .subscribe((_) => {
             this.router.navigate(['/summary']);
             this.message.create('success', `Summary Successfully Added`);
@@ -130,9 +130,10 @@ export class SalesSummaryEditComponent implements OnInit {
           billDate: toDateString(this.f.billDate.value),
           billQuantity: this.f.billQuantity.value,
           billAmount: this.f.billAmount.value,
+          commissionPercentage: this.f.commissionPercentage.value,
         };
         this.client
-          .put(`${environment.apiUrl}/SalesSummary/` + this.id, data)
+          .put(`${environment.apiUrl}/SalesSummaries/` + this.id, data)
           .subscribe((_) => {
             this.router.navigate(['/summary']);
             this.message.create('success', `Summary Successfully Edited`);

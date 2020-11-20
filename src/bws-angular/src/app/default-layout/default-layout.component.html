@@ -2,13 +2,7 @@
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <a href="/">
       <div *ngIf="!isCollapsed" class="logo">
-        <img
-          [src]="
-            theme
-              ? '../../assets/logoWithName.png'
-              : '../../assets/logoBlack.png'
-          "
-        />
+        <img src="../../assets/logoWithName.png" />
       </div>
       <div *ngIf="isCollapsed" class="slogo">
         <img src="../../assets/logo.png" />
@@ -67,7 +61,7 @@
             ></i>
           </span>
         </div>
-        <div nz-col>
+        <div nz-col class="rm">
           <a nz-dropdown [nzDropdownMenu]="menu" nzPlacement="bottomRight">
             <i
               nz-icon

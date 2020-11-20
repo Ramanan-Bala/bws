@@ -38,7 +38,7 @@ export class BrokerEditComponent implements OnInit {
     } else if (this.id >= 0) {
       this.title = 'Edit Broker';
       this.client
-        .get<Broker>(`${environment.apiUrl}/broker/${this.id}`)
+        .get<Broker>(`${environment.apiUrl}/brokers/${this.id}`)
         .subscribe((res) => {
           this.f.name.setValue(res.brokerName);
           this.f.addressLine1.setValue(res.addressLine1);
@@ -98,7 +98,7 @@ export class BrokerEditComponent implements OnInit {
           note: this.f.note.value,
         };
         this.client
-          .post(`${environment.apiUrl}/broker`, data)
+          .post(`${environment.apiUrl}/brokers`, data)
           .subscribe((_) => {
             this.router.navigate(['/brokers']);
             this.message.create('success', `Broker Successfully Added`);
@@ -114,7 +114,7 @@ export class BrokerEditComponent implements OnInit {
           note: this.f.note.value,
         };
         this.client
-          .put(`${environment.apiUrl}/broker/${this.id}`, data)
+          .put(`${environment.apiUrl}/brokers/${this.id}`, data)
           .subscribe((_) => {
             this.router.navigate(['/brokers']);
             this.message.create('success', `Broker Successfully Edited`);

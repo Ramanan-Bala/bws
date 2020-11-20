@@ -6,4 +6,5 @@ export class Sales {
   billQuantity: number;
   billAmount: number;
   brokerName?: string;
+  commissionPercentage: number;
 }

@@ -1,4 +1,3 @@
-import { from } from 'rxjs';
 import {
   AbstractControl,
   FormBuilder,
@@ -8,6 +7,8 @@ import {
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { environment } from '../../environments/environment';
+
 // import { toDateString } from '../_helpers';
 import { Broker, Calculation, Payment } from '../_models';
 import { differenceInCalendarDays, format } from 'date-fns';
@@ -52,7 +53,7 @@ export class PaymentComponent implements OnInit {
       brokerName: 'All',
     };
     this.client
-      .get<Broker[]>('https://localhost:5001/broker')
+      .get<Broker[]>(`${environment.apiUrl}/brokers`)
       .subscribe((res) => {
         this.brokers = [broker, ...res];
       });
@@ -64,7 +65,7 @@ export class PaymentComponent implements OnInit {
     this.f.rangePicker.setValue([this.from, this.to]);
     this.client
       .get<Payment[]>(
-        `https://localhost:5001/payment?id=0&paymentField=COMMN&from=${this.from}&to=${this.to}`
+        `${environment.apiUrl}/payments?id=0&paymentField=COMMN&from=${this.from}&to=${this.to}`
       )
       .subscribe((res) => {
         this.payment = res;
@@ -86,10 +87,9 @@ export class PaymentComponent implements OnInit {
   loadData(): void {
     this.client
       .get<Payment[]>(
-        `https://localhost:5001/payment?id=${this.brokerId}&paymentField=${this.paymentField}&from=${this.from}&to=${this.to}`
+        `${environment.apiUrl}/payments?id=${this.f.brokerId.value}&paymentField=${this.f.field.value}&from=${this.from}&to=${this.to}`
       )
       .subscribe((res) => {
-        // console.log('payment Get', res);
         this.payment = res;
       });
   }
@@ -106,25 +106,13 @@ export class PaymentComponent implements OnInit {
     if (this.validateForm.invalid) {
       return;
     } else {
-      this.brokerId = this.f.brokerId.value;
-      this.paymentField = this.f.field.value;
-      this.client
-        .post<Calculation[]>('https://localhost:5001/calculation/Update', {
-          calcField: this.paymentField,
-          brokerId: this.brokerId,
-          from: this.from,
-          to: this.to,
-        })
-        .subscribe((res) => {
-          console.log('Calculated and posted', res);
-          this.loadData();
-        });
+      this.loadData();
     }
   }
 
   delData(id: number): void {
     this.client
-      .delete(`https://localhost:5001/Payment/${id}`)
+      .delete(`${environment.apiUrl}/payments/${id}`)
       .subscribe((_) => {
         this.loadData();
       });

@@ -17,10 +17,7 @@ export class DefaultLayoutComponent implements OnInit {
   };
   menus: Menu[] = bwsMenus;
 
-  constructor(private router: Router) {
-    console.log(this.menus[0].title);
-    console.log(this.router.url.split('/')[1]);
-  }
+  constructor() {}
 
   ngOnInit(): void {}
 
@@ -30,10 +27,6 @@ export class DefaultLayoutComponent implements OnInit {
         this.openMap[key] = false;
       }
     }
-  }
-
-  onClick(path: string[]): void {
-    this.router.navigate(path);
   }
 
   setTheme() {

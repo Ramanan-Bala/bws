@@ -27,7 +27,7 @@ export class BrokersComponent implements OnInit {
 
   delData(data: number): void {
     this.client
-      .delete(`${environment.apiUrl}/broker/` + data)
+      .delete(`${environment.apiUrl}/brokers/` + data)
       .subscribe((_) => {
         this.loadData();
       });
@@ -35,7 +35,7 @@ export class BrokersComponent implements OnInit {
   }
 
   loadData(): void {
-    this.client.get<Broker[]>(`${environment.apiUrl}/broker`).subscribe(
+    this.client.get<Broker[]>(`${environment.apiUrl}/brokers`).subscribe(
       (res) => {
         this.brokers = res;
         this.loading = false;

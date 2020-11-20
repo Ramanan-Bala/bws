@@ -93,7 +93,16 @@
 
     <nz-form-item nz-row class="register-area">
       <nz-form-control [nzSpan]="14" [nzOffset]="6">
-        <button (click)="submitForm()" nz-button nzType="primary">
+        <button
+          [nzCondition]="confirmPayment"
+          nz-popconfirm
+          nzPopconfirmTitle="Are you sure to give more to the broker?"
+          nzPopconfirmPlacement="top"
+          (nzOnConfirm)="confirm()"
+          (click)="onSubmit()"
+          nz-button
+          nzType="primary"
+        >
           Submit
         </button>
         <button (click)="cancelForm()" nz-button class="lm">Cancel</button>

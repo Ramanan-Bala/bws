@@ -30,7 +30,7 @@ export class SalesSummaryComponent implements OnInit {
 
   delData(data: number): void {
     this.client
-      .delete(`${environment.apiUrl}/SalesSummary/` + data)
+      .delete(`${environment.apiUrl}/SalesSummaries/` + data)
       .subscribe((_) => {
         this.loadData();
       });
@@ -38,7 +38,7 @@ export class SalesSummaryComponent implements OnInit {
   }
 
   loadData(): void {
-    this.client.get<Sales[]>(`${environment.apiUrl}/SalesSummary`).subscribe(
+    this.client.get<Sales[]>(`${environment.apiUrl}/SalesSummaries`).subscribe(
       (res) => {
         this.salesSummary = res;
         this.loading = false;

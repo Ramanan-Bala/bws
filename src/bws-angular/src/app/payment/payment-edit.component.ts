@@ -12,7 +12,7 @@ import { differenceInCalendarDays, format } from 'date-fns';
 
 import { environment } from '../../environments/environment';
 
-import { Broker, Payment, ToBePaid } from '../_models';
+import { Broker, Payment, Calculation, ToBePaid } from '../_models';
 import { toDateString } from '../_helpers';
 
 @Component({
@@ -28,6 +28,8 @@ export class PaymentEditComponent implements OnInit {
   paymentField: string = null;
   toBePaid: number;
 
+  confirmPayment = true;
+
   validateForm!: FormGroup;
   submitted = false;
 
@@ -36,6 +38,7 @@ export class PaymentEditComponent implements OnInit {
   brokers: Broker[] = [];
   disabledDate = (current: Date): boolean => {
     return differenceInCalendarDays(current, new Date()) > 0;
+    // tslint:disable-next-line: semicolon
   };
 
   constructor(
@@ -58,7 +61,7 @@ export class PaymentEditComponent implements OnInit {
     }
 
     this.client
-      .get<Broker[]>(`${environment.apiUrl}/broker`)
+      .get<Broker[]>(`${environment.apiUrl}/brokers`)
       .subscribe((res) => {
         this.brokers = res;
       });
@@ -67,14 +70,14 @@ export class PaymentEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // tslint:disable-next-line: typedef
+    // tslint:disable-next-line: triple-equals
     if (this.id == undefined) {
       this.title = 'Add payment';
       this.f.paymentDate.setValue(format(new Date(), 'yyyy-MM-dd'));
     } else if (this.id >= 0) {
       this.title = 'Edit payment';
       this.client
-        .get<Payment>(`${environment.apiUrl}/Payment/` + this.id)
+        .get<Payment>(`${environment.apiUrl}/payments/${this.id}`)
         .subscribe((res) => {
           this.f.brokerId.setValue(res.brokerId);
           this.f.paymentField.setValue(res.paymentField);
@@ -84,7 +87,7 @@ export class PaymentEditComponent implements OnInit {
           this.brokerId = res.brokerId;
           this.client
             .get<ToBePaid>(
-              `${environment.apiUrl}/payment/balance/${this.brokerId}/${this.paymentField}`
+              `${environment.apiUrl}/payments/balance/${this.brokerId}/${this.paymentField}`
             )
             // tslint:disable-next-line: no-shadowed-variable
             .subscribe((res) => {
@@ -99,7 +102,7 @@ export class PaymentEditComponent implements OnInit {
     if (this.brokerId != null && this.paymentField != null) {
       this.client
         .get<ToBePaid>(
-          `${environment.apiUrl}/payment/balance/${this.brokerId}/${this.paymentField}`
+          `${environment.apiUrl}/payments/balance/${this.brokerId}/${this.paymentField}`
         )
         .subscribe((res) => {
           this.toBePaid = res.balance;
@@ -112,7 +115,7 @@ export class PaymentEditComponent implements OnInit {
     if (this.brokerId != null && this.paymentField != null) {
       this.client
         .get<ToBePaid>(
-          `${environment.apiUrl}/payment/balance/${this.brokerId}/${this.paymentField}`
+          `${environment.apiUrl}/payments/balance/${this.brokerId}/${this.paymentField}`
         )
         .subscribe((res) => {
           this.toBePaid = res.balance;
@@ -124,7 +127,7 @@ export class PaymentEditComponent implements OnInit {
     if (this.brokerId != null && this.paymentField != null) {
       this.client
         .get<ToBePaid>(
-          `${environment.apiUrl}/payment/balance/${this.brokerId}/${this.paymentField}`
+          `${environment.apiUrl}/payments/balance/${this.brokerId}/${this.paymentField}`
         )
         .subscribe((res) => {
           this.toBePaid = res.balance;
@@ -144,7 +147,25 @@ export class PaymentEditComponent implements OnInit {
     return this.validateForm.controls;
   }
 
-  submitForm(): void {
+  confirm(): void {
+    // tslint:disable-next-line: triple-equals
+    if (this.id == undefined) {
+      const data: Payment = {
+        brokerId: this.f.brokerId.value,
+        paymentField: this.f.paymentField.value,
+        paymentDate: toDateString(this.f.paymentDate.value),
+        paymentAmount: this.f.paymentAmount.value,
+      };
+      this.client
+        .post(`${environment.apiUrl}/payments`, data)
+        .subscribe((_) => {
+          this.router.navigate(['/payment']);
+          this.message.create('success', `Payment Successfully Added`);
+        });
+    }
+  }
+
+  onSubmit(): void {
     this.submitted = true;
 
     // tslint:disable-next-line: forin
@@ -158,19 +179,9 @@ export class PaymentEditComponent implements OnInit {
     } else {
       // tslint:disable-next-line: triple-equals
       if (this.id == undefined) {
-        const data: Payment = {
-          brokerId: this.f.brokerId.value,
-          paymentField: this.f.paymentField.value,
-          paymentDate: toDateString(this.f.paymentDate.value),
-          paymentAmount: this.f.paymentAmount.value,
-        };
-        console.log('Date', data.paymentDate);
-        this.client
-          .post(`${environment.apiUrl}/payment`, data)
-          .subscribe((_) => {
-            this.router.navigate(['/payment']);
-            this.message.create('success', `Payment Successfully Added`);
-          });
+        if (this.f.paymentAmount.value > this.toBePaid) {
+          this.confirmPayment = false;
+        }
       } else {
         const data: Payment = {
           id: this.id,
@@ -180,7 +191,7 @@ export class PaymentEditComponent implements OnInit {
           paymentAmount: this.f.paymentAmount.value,
         };
         this.client
-          .put(`${environment.apiUrl}/Payment/` + this.id, data)
+          .put(`${environment.apiUrl}/payments/` + this.id, data)
           .subscribe((_) => {
             this.router.navigate(['/payment']);
             this.message.create('success', `Payment Successfully Edited`);
